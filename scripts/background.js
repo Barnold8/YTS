@@ -1,6 +1,6 @@
 
 //TODO: 
-    // Remove queue elements and replace with new sorted elements
+    // Remove queue elements and replace with new sorted elements - PARTIAL
     // disallow non queue to work
     // add functionality for mixes to be sorted
 
@@ -10,13 +10,19 @@ const RE = "[0-9]{0,2}:[0-9]{1,2}"
 
 function foo(){
 
-    a = document.getElementsByTagName("ytd-playlist-panel-video-renderer")
+    queueContainer = document.getElementsByTagName("ytd-playlist-panel-video-renderer")
     queue = []
 
-    for(const elem of a){
+    for(const elem of queueContainer){
         time = elem.innerText.match("[0-9]{0,2}:[0-9]{1,2}")
         queue.push([time,elem])
+        
     }
+    
+    // Uncomment after adding video testing
+    // while(queueContainer.length > 0){ // For some reason, removing elems in for loop doesnt remove all videos. could be a synchronous error
+    //     queueContainer[0].remove()
+    // }
 
     queue.sort(function compare(t1,t2){
 
@@ -29,6 +35,25 @@ function foo(){
         return timeLeft - timeRight
 
     })
+
+    console.log("========================================")
+    console.log(queue)
+    console.log("========================================")
+
+    console.log(`Queue length ${queue.length}`)
+
+    x = document.getElementsByClassName("playlist-items style-scope ytd-playlist-panel-renderer")
+    // x[1].innerHTML = "<p>helloooo</p>"
+    for(let i = 0; i < queue.length; i++){
+        node = document.createElement('ytd-playlist-panel-video-renderer')
+        node.innerHTML = queue[i]
+        x[1].appendChild(node)
+    }
+   
+
+    
+
+
 
 }
 
