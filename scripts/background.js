@@ -1,7 +1,6 @@
 
 //TODO: 
     // Remove queue elements and replace with new sorted elements - PARTIAL
-    // disallow non queue to work
     // add functionality for mixes to be sorted
 
 const YT = "https://www.youtube.com"
