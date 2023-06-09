@@ -1,4 +1,9 @@
 
+//TODO: 
+    // Remove queue elements and replace with new sorted elements
+    // disallow non queue to work
+    // add functionality for mixes to be sorted
+
 const YT = "https://www.youtube.com"
 
 const RE = "[0-9]{0,2}:[0-9]{1,2}"
@@ -7,9 +12,8 @@ function foo(){
 
     a = document.getElementsByTagName("ytd-playlist-panel-video-renderer")
     queue = []
-    
+
     for(const elem of a){
-        // console.log(elem)
         time = elem.innerText.match("[0-9]{0,2}:[0-9]{1,2}")
         queue.push([time,elem])
     }
@@ -30,8 +34,6 @@ function foo(){
 
 
 chrome.action.onClicked.addListener(async (tab) => {
-
-    // console.log(tab.id)
 
     if(tab.url.startsWith(YT)){
 
