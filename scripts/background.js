@@ -26,19 +26,8 @@ function foo(){
 
     })
 
-
-    return a
-
 }
-function bar(){
-  
-    collection = document.getElementsByClassName('question-hyperlink')
-    for (let i = 0; i < collection.length; i++) {
-        collection[i].style.backgroundColor = "blue";
-    }
-    return collection
-    
-}
+
 
 chrome.action.onClicked.addListener(async (tab) => {
 
@@ -54,15 +43,6 @@ chrome.action.onClicked.addListener(async (tab) => {
         }).then(f => {
             
            
-        })
-    }else{
-        chrome.scripting.executeScript({
-           
-            target: {tabId : tab.id},
-            func: bar
-
-        }).then(f => {
-            
         })
     }
 })
