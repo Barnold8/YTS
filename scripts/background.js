@@ -1,16 +1,28 @@
 
 const YT = "https://www.youtube.com"
 
-
-
+const RE = "[0-9]{0,2}:[0-9]{1,2}"
 
 function foo(){
-    f = document.getElementsByClassName("items");
-    a = document.getElementsByTagName("yt-formatted-string")
+
+    a = document.getElementsByTagName("ytd-playlist-panel-video-renderer")
+    queue = {}
+    
     for(const elem of a){
-        elem.innerHTML = "AAA"
+        
+        // console.log(elem)
+        time = elem.innerText.match("[0-9]{0,2}:[0-9]{1,2}")
+        queue[elem.innerText] = {
+            "Element": elem,
+            "time": time
+        }
     }
-    return f
+
+    for(var key in queue) {
+        var value = queue[key];
+        console.log(key)
+    }
+    return a
 
 }
 function bar(){
@@ -36,7 +48,7 @@ chrome.action.onClicked.addListener(async (tab) => {
 
         }).then(f => {
             
-            console.log(f)
+           
         })
     }else{
         chrome.scripting.executeScript({
@@ -49,3 +61,6 @@ chrome.action.onClicked.addListener(async (tab) => {
         })
     }
 })
+
+
+
