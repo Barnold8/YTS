@@ -2,6 +2,7 @@
 //TODO: 
     // Remove queue elements and replace with new sorted elements - PARTIAL
     // add functionality for mixes to be sorted
+    // try and go through all sub elements of a queue item and store data
 
 const YT = "https://www.youtube.com"
 
@@ -43,13 +44,19 @@ function foo(){
         console.log(`Queue length ${queue.length}`)
     
         x = document.getElementsByClassName("playlist-items style-scope ytd-playlist-panel-renderer")
-        // x[1].innerHTML = "<p>helloooo</p>"
+    
+
         for(let i = 0; i < queue.length; i++){
             node = document.createElement('ytd-playlist-panel-video-renderer')
+            node.classList.add("style-scope", "ytd-playlist-panel-renderer");
+            node.setAttribute("id","playlist-items")
+            node.setAttribute("can-reorder","")
+            node.setAttribute("touch-persistent-drag-handle","")
+            node.setAttribute("use-color-palette","")
             node.innerHTML = queue[i]
             x[1].appendChild(node)
         }
-       
+      
     }
 
 
