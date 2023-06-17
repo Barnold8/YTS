@@ -38,6 +38,14 @@ function foo(){
 }
 
 
+chrome.runtime.onMessage.addListener(function(request,sender,sendResponse){
+
+
+    console.log("Load and clear")
+
+
+})
+
 chrome.action.onClicked.addListener(async (tab) => {
 
     if(tab.url.startsWith(YT)){
