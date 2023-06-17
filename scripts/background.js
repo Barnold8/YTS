@@ -38,10 +38,12 @@ function foo(){
 }
 
 
-chrome.runtime.onMessage.addListener(function(request,sender,sendResponse){
+chrome.runtime.onMessage.addListener(function(request,sender,sendResponse){ // this is used to take a message from the popup 
 
 
     console.log("Loud and clear")
+
+    console.log(request)
 
 
 })
