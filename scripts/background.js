@@ -20,11 +20,6 @@ function foo(){
             queue.push([time,elem])
         }
         
-        // Uncomment after adding video testing
-        // while(queueContainer.length > 0){ // For some reason, removing elems in for loop doesnt remove all videos. could be a synchronous error
-        //     queueContainer[0].remove()
-        // }
-    
         queue.sort(function compare(t1,t2){
     
             timeLeft = t1[0][0].split(":")
@@ -36,34 +31,9 @@ function foo(){
             return timeLeft - timeRight
     
         })
-    
-        console.log("========================================")
+        
         console.log(queue)
-        console.log("========================================")
-    
-        console.log(`Queue length ${queue.length}`)
-    
-        x = document.getElementsByClassName("playlist-items style-scope ytd-playlist-panel-renderer")
-    
-
-        for(let i = 0; i < queue.length; i++){
-            node = document.createElement('ytd-playlist-panel-video-renderer')
-            node.classList.add("style-scope", "ytd-playlist-panel-renderer");
-            node.setAttribute("id","playlist-items")
-            node.setAttribute("can-reorder","")
-            node.setAttribute("touch-persistent-drag-handle","")
-            node.setAttribute("use-color-palette","")
-            node.innerHTML = queue[i]
-            x[1].appendChild(node)
-        }
-      
     }
-
-
-
-    
-
-
 
 }
 
