@@ -41,18 +41,6 @@ function foo(){
 
 }
 
-// chrome.runtime.onMessage.addListener(
-//     function(message, sender, sendResponse) {
-//         console.log("Listener in content")
-//         console.log(message)
-//         sendResponse({msg:"Hello"})
-//         }
-// );
-
-// chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
-
-//     sendResponse({status: "yes"});
-// });
 
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
