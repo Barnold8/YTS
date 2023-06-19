@@ -39,9 +39,6 @@ chrome.runtime.onMessage.addListener(
             case "getInitialQueue":
                 sendResponse({payload: processQueue()})
                 break
-            case "getURL":
-                sendResponse({payload: })
-                break
             default:
                 sendResponse({payload:null})
                 break;
