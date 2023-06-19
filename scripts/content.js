@@ -1,26 +1,11 @@
 
 //TODO: 
-    // Remove queue elements and replace with new sorted elements - PARTIAL
-    // add functionality for mixes to be sorted
-    // try and go through all sub elements of a queue item and store data
-
-
-
-console.log("Content script loaded")
-
-const YT = "https://www.youtube.com"
-
-const RE = "[0-9]{0,2}:[0-9]{1,2}"
+    // error handling for no video queues available
 
 function processQueue(){
 
     queueContainer = document.getElementsByTagName("ytd-playlist-panel-video-renderer")
     queue = []
-    console.log("================= Queue Container =================")
-
-    console.log(queueContainer)
-
-    console.log("================= Queue Container =================")
 
     if(queueContainer.length > 1){ // only sort queues longer than 1 elem, useless to sort 1 elem queue
 
