@@ -1,6 +1,11 @@
 
 // Note: fooDiv is a placeholder ID
 
+function redirectToYoutube(){
+  chrome.tabs.update({url: "https://youtube.com"});
+  window.close(); 
+}
+
 window.onload = async function() {
   const tabs = await chrome.tabs.query({currentWindow: true, active: true});
   const URL = tabs[0].url
@@ -17,13 +22,14 @@ window.onload = async function() {
     var verticalButtonContainer = document.createElement("div")
     var gotoYoutube = document.createElement("button")
 
-
     imageContainer.classList.add("imageContainer") 
     questionableIMG.classList.add("questionableIMG") 
     information.classList.add("wrongSiteInfo")
     buttonContainer.classList.add("redirectButtonContainer")
     verticalButtonContainer.classList.add("verticalButtonContainer")
     gotoYoutube.classList.add("youtubeRedirect")
+
+    gotoYoutube.setAttribute('id', 'redirect')
 
     questionableIMG.src = "../images/Questionable.png"
     information.innerText = "This doesn't seem to be Youtube..."
@@ -36,8 +42,7 @@ window.onload = async function() {
     document.body.appendChild(imageContainer)
     document.body.appendChild(buttonContainer)
 
-    
-
+    document.getElementById("redirect").addEventListener("click", redirectToYoutube);
 
   }
 
