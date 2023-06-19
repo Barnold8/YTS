@@ -9,10 +9,14 @@ function callBack(tabs){
 function generateQueue(){
   (async () => {
     const tabs = await chrome.tabs.query({currentWindow: true, active: true});
-    const response = await chrome.tabs.sendMessage(tabs[0].id, {greeting: "hello"});
+    const response = await chrome.tabs.sendMessage(tabs[0].id, {type: "initialQueue"});
 
-
-    console.log(response.payload )
+    if(response.payload === null){
+      const node = document.createElement("div");
+      node.innerText = "No queue was found, try refreshing the page."
+      document.getElementById("fooDiv").appendChild(node);
+      return;
+    }
 
     for(const elem of response.payload ){
       const node = document.createElement("a");
@@ -20,7 +24,9 @@ function generateQueue(){
       node.href = elem[1]
       node.innerText = elem[1]
       document.getElementById("fooDiv").appendChild(node);
+
     }
+
   })();
 
 }

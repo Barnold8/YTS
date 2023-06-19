@@ -35,7 +35,16 @@ function processQueue(){
 
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-        console.log("onMessage request")
+        switch(request.request){
+            case "initialQueue":
+                sendResponse({payload:processQueue()})
+                break
+            
+            default:
+                sendResponse({payload:null})
+                break;
+            
+        }
         sendResponse({payload: processQueue() })
     }
   );
