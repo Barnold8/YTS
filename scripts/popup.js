@@ -1,15 +1,14 @@
 
-
-var query = {active: true, currentWindow: true}
-
-function callBack(tabs){
-  var currentTab = tabs[0]
+window.onload = async function() {
+  const tabs = await chrome.tabs.query({currentWindow: true, active: true});
+  const URL = tabs[0].url
+  console.log(URL)
 }
 
 function generateQueue(){
   (async () => {
     const tabs = await chrome.tabs.query({currentWindow: true, active: true});
-    const response = await chrome.tabs.sendMessage(tabs[0].id, {type: "initialQueue"});
+    const response = await chrome.tabs.sendMessage(tabs[0].id, {type: "getInitialQueue"});
 
     if(response.payload === null){
       const node = document.createElement("div");
@@ -30,5 +29,8 @@ function generateQueue(){
   })();
 
 }
+
+
+
 
 document.getElementById("generateQueue").addEventListener("click", generateQueue);
