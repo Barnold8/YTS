@@ -2,7 +2,10 @@
 window.onload = async function() {
   const tabs = await chrome.tabs.query({currentWindow: true, active: true});
   const URL = tabs[0].url
-  console.log(URL)
+  if(!(URL.includes("youtube"))){
+    document.getElementById("fooDiv").remove()
+    document.getElementById("generateQueue").remove()
+  }
 }
 
 function generateQueue(){
