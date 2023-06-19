@@ -7,14 +7,22 @@ function callBack(tabs){
 }
 
 function generateQueue(){
+  (async () => {
+    const tabs = await chrome.tabs.query({currentWindow: true, active: true});
+    const response = await chrome.tabs.sendMessage(tabs[0].id, {greeting: "hello"});
 
-  chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
-    var activeTab = tabs[0];
-    chrome.tabs.sendMessage(activeTab.id, {"message": "start"});
-  });
-    
+
+    console.log(response.payload )
+
+    for(const elem of response.payload ){
+      const node = document.createElement("a");
+      console.log(elem)
+      node.href = elem[1]
+      node.innerText = elem[1]
+      document.getElementById("fooDiv").appendChild(node);
+    }
+  })();
+
 }
-
-
 
 document.getElementById("generateQueue").addEventListener("click", generateQueue);

@@ -12,18 +12,25 @@ const YT = "https://www.youtube.com"
 
 const RE = "[0-9]{0,2}:[0-9]{1,2}"
 
-function foo(){
+function processQueue(){
 
     queueContainer = document.getElementsByTagName("ytd-playlist-panel-video-renderer")
     queue = []
+    console.log("================= Queue Container =================")
+
+    console.log(queueContainer)
+
+    console.log("================= Queue Container =================")
 
     if(queueContainer.length > 1){ // only sort queues longer than 1 elem, useless to sort 1 elem queue
 
         for(const elem of queueContainer){
+            // console.log(elem)
+            console.log(elem.children)
             time = elem.innerText.match("[0-9]{0,2}:[0-9]{1,2}")
-            queue.push([time,elem])
+            queue.push([time,elem.children[0].href])
         }
-        
+       
         queue.sort(function compare(t1,t2){
     
             timeLeft = t1[0][0].split(":")
@@ -36,19 +43,19 @@ function foo(){
     
         })
         
-        console.log(queue)
+        return queue
     }
 
 }
 
-
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-        document.title = "fffff"
+        console.log("onMessage request")
+        sendResponse({payload: processQueue() })
     }
   );
 
-// come back to this. probably better to use content over background????
+
 
 
 
