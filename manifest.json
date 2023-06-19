@@ -13,13 +13,12 @@
     "content_scripts": [
       {
         "matches": ["<all_urls>"],
-        "js": ["scripts/content.js"]
+        // "matches": ["https://*.youtube.com/*"],
+        "js": ["scripts/content.js"],
+        "run_at": "document_start"
       }
     ],
 
-    "background": {
-        "service_worker": "scripts/background.js"
-      },
 
       "action": {
         "default_popup": "html/popup.html",
@@ -32,5 +31,5 @@
         }
       },
 
-      "permissions": ["activeTab","scripting"]
+      "permissions": ["activeTab","scripting","tabs"]
 }

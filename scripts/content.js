@@ -4,6 +4,10 @@
     // add functionality for mixes to be sorted
     // try and go through all sub elements of a queue item and store data
 
+
+
+console.log("Content script loaded")
+
 const YT = "https://www.youtube.com"
 
 const RE = "[0-9]{0,2}:[0-9]{1,2}"
@@ -38,31 +42,32 @@ function foo(){
 }
 
 
-chrome.runtime.onMessage.addListener(function(request,sender,sendResponse){ // this is used to take a message from the popup 
 
 
-    console.log("Loud and clear")
+// chrome.runtime.onMessage.addListener(
+//     function(message, sender, sendResponse) {
+//         console.log("Listener in content")
+//         console.log(message)
+//         sendResponse({msg:"Hello"})
+//         }
+// );
 
-    console.log(request)
+// chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
 
+//     sendResponse({status: "yes"});
+// });
 
-})
-
-chrome.action.onClicked.addListener(async (tab) => {
-
-    if(tab.url.startsWith(YT)){
-
-        chrome.scripting.executeScript({
-           
-            target: {tabId : tab.id},
-            func: foo
-
-        }).then(f => {
-            
-           
-        })
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+      console.log(sender.tab ?
+                  "from a content script:" + sender.tab.url :
+                  "from the extension");
+      if (request.greeting === "hello")
+        sendResponse({farewell: "goodbye"});
     }
-})
+  );
+
+// come back to this. probably better to use content over background????
 
 
 

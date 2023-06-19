@@ -1,20 +1,20 @@
 
-function generateQueue(){
 
-    chrome.runtime.sendMessage({
-        msg: "generateQueue", 
-    });
-    const para = document.createElement("p");
-    const node = document.createTextNode("This is a test");
-    para.appendChild(node);
+var query = {active: true, currentWindow: true}
 
-    const element = document.getElementById("fooDiv");
-    element.appendChild(para);
+function callBack(tabs){
+  var currentTab = tabs[0]
 }
 
+function generateQueue(){
+  console.log("ffff")
+  chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
+    var activeTab = tabs[0];
+    chrome.tabs.sendMessage(activeTab.id, {"message": "start"});
+});
+    
+}
+
+
+
 document.getElementById("generateQueue").addEventListener("click", generateQueue);
-
-
-
-
-
