@@ -30,10 +30,15 @@
 
 ### content.js
 
-    * implement error handling for 
+    * implement error handling for null queue
+    
 
 ### popup.js
 
     * replace "fooDiv" placeholder id with more meaningful ID
 
 ### other
+
+    * display a queue on the popup window
+    * intercept youtube autoplay video change by redirection 
+    
