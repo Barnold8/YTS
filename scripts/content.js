@@ -35,12 +35,12 @@ function processQueue(){
 
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-        switch(request.request){
+        switch(request.type){
             case "getInitialQueue":
                 sendResponse({payload: processQueue()})
                 break
             default:
-                sendResponse({payload:null})
+                sendResponse({payload:null,message: `Message was ${request.type}`})
                 break;
             
         }

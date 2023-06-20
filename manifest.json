@@ -29,5 +29,5 @@
         }
       },
 
-      "permissions": ["activeTab","scripting","tabs"]
+      "permissions": ["activeTab","scripting","tabs","storage"]
 }

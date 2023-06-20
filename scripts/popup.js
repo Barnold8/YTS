@@ -43,15 +43,21 @@ window.onload = async function() {
     document.body.appendChild(buttonContainer)
 
     document.getElementById("redirect").addEventListener("click", redirectToYoutube);
-
+    return // stops function from processing other code
   }
+
+  chrome.storage.session.get(["queueInfo"]).then((result) => { // reinit the queue 
+        console.log(result)
+  });
 
 }
 
 function generateQueue(){
+
   (async () => {
     const tabs = await chrome.tabs.query({currentWindow: true, active: true});
     const response = await chrome.tabs.sendMessage(tabs[0].id, {type: "getInitialQueue"});
+    queue = []
 
     if(response.payload === null){
       const node = document.createElement("div");
@@ -61,13 +67,27 @@ function generateQueue(){
     }
 
     for(const elem of response.payload ){
+      
       const node = document.createElement("a");
       console.log(elem)
       node.href = elem[1]
       node.innerText = elem[1]
+      queue.push(node) // to perserve queue later on
+
       document.getElementById("fooDiv").appendChild(node);
 
     }
+    
+    chrome.storage.session.set({
+        queueInfo:[{ 
+                    intialQueue: true,
+                    videoQueue: queue 
+                  }]
+    }).then(() => {
+                    console.log("Value was set");
+    });
+    
+
 
   })();
 
