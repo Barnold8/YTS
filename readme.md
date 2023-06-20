@@ -2,8 +2,12 @@
 
 ## What is it?
 
+This is a chrome extension to aid the use of youtube queues. It works by grabbing the current queue on the page, sorting it and playing the new sorted queue automatically.
+I intend to add features, like sorting by author, video title among other things. 
 
 ## How to use
+
+Right now, all you can do is click "generate queue". 
 
 ### Chrome store
 
@@ -41,4 +45,3 @@
 
     * display a queue on the popup window
     * intercept youtube autoplay video change by redirection 
-    
