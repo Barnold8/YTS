@@ -20,14 +20,14 @@ function generateQueue(){
       return;
     }
 
-    console.log(response.payload)
+    // console.log(response.payload)
 
     for(const elem of response.payload ){
       
       const node = document.createElement("a");
       node.href = elem[1]
       node.innerText = elem[1]
-      console.log(`Node IS: ${node.toString()}`)
+      // console.log(`Node IS: ${node.toString()}`)
       queue.push(node.toString()) // to perserve queue later on
 
       document.getElementById("fooDiv").appendChild(node);

@@ -10,10 +10,13 @@ function processQueue(){
     if(queueContainer.length > 1){ // only sort queues longer than 1 elem, useless to sort 1 elem queue
 
         for(const elem of queueContainer){
-            // console.log(elem)
-            console.log(elem.children)
+            console.log(elem)
+            console.log(elem.childNodes)
+
             time = elem.innerText.match("[0-9]{0,2}:[0-9]{1,2}")
-            queue.push([time,elem.children[0].href])
+            // queue.push([time,elem.children[0].href])
+            queue.push([time,elem.childNodes[2].href])
+            
         }
        
         queue.sort(function compare(t1,t2){
