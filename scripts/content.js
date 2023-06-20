@@ -40,7 +40,7 @@ chrome.runtime.onMessage.addListener(
                 sendResponse({payload: processQueue()})
                 break
             default:
-                sendResponse({payload:null,message: `Message was ${request.type}`})
+                sendResponse({payload: null,message: `Message was ${request.type}`})
                 break;
             
         }

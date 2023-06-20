@@ -6,6 +6,49 @@ function redirectToYoutube(){
   window.close(); 
 }
 
+function generateQueue(){
+
+  (async () => {
+    const tabs = await chrome.tabs.query({currentWindow: true, active: true});
+    const response = await chrome.tabs.sendMessage(tabs[0].id, {type: "getInitialQueue"});
+    queue = []
+
+    if(response.payload === null){
+      const node = document.createElement("div");
+      node.innerText = "No queue was found, try refreshing the page."
+      document.getElementById("fooDiv").appendChild(node);
+      return;
+    }
+
+    console.log(response.payload)
+
+    for(const elem of response.payload ){
+      
+      const node = document.createElement("a");
+      node.href = elem[1]
+      node.innerText = elem[1]
+      console.log(node.toString())
+      queue.push(node) // to perserve queue later on
+
+      document.getElementById("fooDiv").appendChild(node);
+
+    }
+    
+    chrome.storage.session.set({
+        queueInfo:[{ 
+                    intialQueue: true,
+                    videoQueue: queue 
+                  }]
+    }).then(() => {
+                    console.log("Initial queue has been set");
+    });
+    
+
+
+  })();
+
+}
+
 window.onload = async function() {
   const tabs = await chrome.tabs.query({currentWindow: true, active: true});
   const URL = tabs[0].url
@@ -13,7 +56,7 @@ window.onload = async function() {
   if(!(URL.includes("youtube"))){
 
     document.getElementById("fooDiv").remove()
-    document.getElementById("generateQueue").remove()
+    // document.getElementById("generateQueue").remove()
 
     var imageContainer = document.createElement("div")
     var questionableIMG = document.createElement("img")
@@ -47,53 +90,28 @@ window.onload = async function() {
   }
 
   chrome.storage.session.get(["queueInfo"]).then((result) => { // reinit the queue 
-        console.log(result)
+        if(result.queueInfo != null && result.queueInfo[0]["intialQueue"] === true){
+            // insert queue
+            console.log(result.queueInfo)
+
+            document.body.innerText = "Hello"
+            
+            return
+        }
+        // insert button to generate queue
+
+        var genQueue = document.createElement("button")
+        genQueue.classList.add("generateQueueButton")
+        genQueue.setAttribute('id', 'generate')
+        genQueue.innerText = "Generate"
+
+        document.body.appendChild(genQueue)
+
+        document.getElementById("generate").addEventListener("click", generateQueue);
+
+        // <button id="generateQueue">Generate queue</button>
+        // console.log(result.queueInfo[0].initialQueue)
+
   });
 
 }
-
-function generateQueue(){
-
-  (async () => {
-    const tabs = await chrome.tabs.query({currentWindow: true, active: true});
-    const response = await chrome.tabs.sendMessage(tabs[0].id, {type: "getInitialQueue"});
-    queue = []
-
-    if(response.payload === null){
-      const node = document.createElement("div");
-      node.innerText = "No queue was found, try refreshing the page."
-      document.getElementById("fooDiv").appendChild(node);
-      return;
-    }
-
-    for(const elem of response.payload ){
-      
-      const node = document.createElement("a");
-      console.log(elem)
-      node.href = elem[1]
-      node.innerText = elem[1]
-      queue.push(node) // to perserve queue later on
-
-      document.getElementById("fooDiv").appendChild(node);
-
-    }
-    
-    chrome.storage.session.set({
-        queueInfo:[{ 
-                    intialQueue: true,
-                    videoQueue: queue 
-                  }]
-    }).then(() => {
-                    console.log("Value was set");
-    });
-    
-
-
-  })();
-
-}
-
-
-
-
-document.getElementById("generateQueue").addEventListener("click", generateQueue);
