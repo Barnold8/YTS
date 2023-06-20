@@ -27,8 +27,8 @@ function generateQueue(){
       const node = document.createElement("a");
       node.href = elem[1]
       node.innerText = elem[1]
-      console.log(node.toString())
-      queue.push(node) // to perserve queue later on
+      console.log(`Node IS: ${node.toString()}`)
+      queue.push(node.toString()) // to perserve queue later on
 
       document.getElementById("fooDiv").appendChild(node);
 
@@ -56,7 +56,6 @@ window.onload = async function() {
   if(!(URL.includes("youtube"))){
 
     document.getElementById("fooDiv").remove()
-    // document.getElementById("generateQueue").remove()
 
     var imageContainer = document.createElement("div")
     var questionableIMG = document.createElement("img")
@@ -86,19 +85,16 @@ window.onload = async function() {
     document.body.appendChild(buttonContainer)
 
     document.getElementById("redirect").addEventListener("click", redirectToYoutube);
+
     return // stops function from processing other code
   }
 
   chrome.storage.session.get(["queueInfo"]).then((result) => { // reinit the queue 
         if(result.queueInfo != null && result.queueInfo[0]["intialQueue"] === true){
-            // insert queue
-            console.log(result.queueInfo)
-
+            console.log(result)
             document.body.innerText = "Hello"
-            
             return
         }
-        // insert button to generate queue
 
         var genQueue = document.createElement("button")
         genQueue.classList.add("generateQueueButton")
@@ -108,9 +104,6 @@ window.onload = async function() {
         document.body.appendChild(genQueue)
 
         document.getElementById("generate").addEventListener("click", generateQueue);
-
-        // <button id="generateQueue">Generate queue</button>
-        // console.log(result.queueInfo[0].initialQueue)
 
   });
 
