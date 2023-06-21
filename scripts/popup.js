@@ -92,7 +92,7 @@ window.onload = async function() {
 
   chrome.storage.session.get(["queueInfo"]).then((result) => { // reinit the queue 
         if(result.queueInfo != null && result.queueInfo[0]["intialQueue"] === true){
-            console.log(result)
+            // console.log(result)
             document.body.innerText = "Hello"
             return
         }

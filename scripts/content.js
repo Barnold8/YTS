@@ -10,12 +10,12 @@ function processQueue(){
     if(queueContainer.length > 1){ // only sort queues longer than 1 elem, useless to sort 1 elem queue
 
         for(const elem of queueContainer){
-            // console.log(elem)
-            // console.log(elem.childNodes)
+            console.log(elem)
+            console.log(elem.childNodes)
 
             time = elem.innerText.match("[0-9]{0,2}:[0-9]{1,2}").toString()
             // title = elem.childNodes[2].innerText.split("\n")[1] + "\n\n"
-            title = elem.childNodes[2].innerText.split("\n") + "\n\n" // find a better way to process titles
+            title = elem.childNodes[2].childNodes[1].childNodes[5].innerText // find a better way to process titles
             
             queue.push({
                 time: time, 
