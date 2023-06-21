@@ -25,8 +25,8 @@ function generateQueue(){
     for(const elem of response.payload ){
       
       const node = document.createElement("a");
-      node.href = elem[1]
-      node.innerText = elem[1]
+      node.href = elem["title"]
+      node.innerText = elem["title"]
       // console.log(`Node IS: ${node.toString()}`)
       queue.push(node.toString()) // to perserve queue later on
 
