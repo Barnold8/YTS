@@ -15,6 +15,8 @@ function processQueue(){
 
             time = elem.innerText.match("[0-9]{0,2}:[0-9]{1,2}").toString()
             // title = elem.childNodes[2].innerText.split("\n")[1] + "\n\n"
+            
+            // seems to be the only way to get the title for a video element. YT, please don't change how your html is structured PLEASE 
             title = elem.childNodes[2].childNodes[1].childNodes[5].innerText // find a better way to process titles
             
             queue.push({
@@ -39,7 +41,7 @@ function processQueue(){
         
         return queue
     }
-
+    return undefined
 }
 
 chrome.runtime.onMessage.addListener(
