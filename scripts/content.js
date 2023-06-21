@@ -22,9 +22,9 @@ function processQueue(){
             meta_href = elem.childNodes[2].href
             
             queue.push({
-                time: time, 
-                title: title, 
-                href: href
+                time: meta_time, 
+                title: meta_title, 
+                href: meta_href
             })
             
         }
