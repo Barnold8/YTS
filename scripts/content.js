@@ -13,16 +13,18 @@ function processQueue(){
             console.log(elem)
             console.log(elem.childNodes)
 
-            time = elem.innerText.match("[0-9]{0,2}:[0-9]{1,2}").toString()
-            // title = elem.childNodes[2].innerText.split("\n")[1] + "\n\n"
+            meta_time = elem.innerText.match("[0-9]{0,2}:[0-9]{1,2}").toString()
             
             // seems to be the only way to get the title for a video element. YT, please don't change how your html is structured PLEASE 
-            title = elem.childNodes[2].childNodes[1].childNodes[5].innerText // find a better way to process titles
+            // possible there is some better way to parse these elements?
+            meta_title = elem.childNodes[2].childNodes[1].childNodes[5].innerText 
+
+            meta_href = elem.childNodes[2].href
             
             queue.push({
                 time: time, 
                 title: title, 
-                href: elem.childNodes[2].href
+                href: href
             })
             
         }
