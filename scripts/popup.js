@@ -8,20 +8,24 @@ function generateVideo(elem){
   const image = document.createElement("img")
   const title = document.createElement("p")
   const link  = document.createElement("a") // more used to actually store the link in an elem rather than for user side use
+  const time  = document.createElement("p")
+
 
   link.href = elem["href"]
   title.innerText = elem["title"]
+  time.innerText = elem["time"]
   image.src = elem["img"]
   
   video.classList.add("queueVideo") 
   imageDiv.appendChild(image)
+  imageDiv.appendChild(time)
 
   title.appendChild(link)
   video.appendChild(imageDiv)
   video.appendChild(title)
   
 
-  queue.push(video.toString()) // to perserve queue later on
+  // queue.push(video.toString()) // to perserve queue later on
 
   document.getElementById("fooDiv").appendChild(video);
 
@@ -39,7 +43,7 @@ function generateQueue(){
   (async () => {
     const tabs = await chrome.tabs.query({currentWindow: true, active: true});
     const response = await chrome.tabs.sendMessage(tabs[0].id, {type: "getInitialQueue"});
-    queue = []
+
 
     if(response.payload === null){
       const node = document.createElement("div");
@@ -52,16 +56,17 @@ function generateQueue(){
       
       const video = generateVideo(elem)
 
-      queue.push(video.toString()) // to perserve queue later on
+
 
       document.getElementById("fooDiv").appendChild(video);
+     
 
     }
-    
+    document.getElementById("generate").remove()
     chrome.storage.session.set({
         queueInfo:[{ 
                     intialQueue: true,
-                    videoQueue: queue 
+                    videoQueue: response.payload 
                   }]
     }).then(() => {
                     console.log("Initial queue has been set");
@@ -114,11 +119,11 @@ window.onload = async function() {
   }
 
   chrome.storage.session.get(["queueInfo"]).then((result) => { // reinit the queue 
-        if(result.queueInfo != null && result.queueInfo[0]["intialQueue"] === true){
-            // console.log(result)
-            document.body.innerText = "Hello"
-            return
-        }
+        // if(result.queueInfo != null && result.queueInfo[0]["intialQueue"] === true){
+        //     // console.log(result)
+        //     document.body.innerText = "Hello"
+        //     return
+        // }
 
         var genQueue = document.createElement("button")
         genQueue.classList.add("generateQueueButton")
