@@ -1,6 +1,34 @@
 
 // Note: fooDiv is a placeholder ID
 
+function generateVideo(elem){
+
+  const video = document.createElement("div")
+  const imageDiv = document.createElement("div")
+  const image = document.createElement("img")
+  const title = document.createElement("p")
+  const link  = document.createElement("a") // more used to actually store the link in an elem rather than for user side use
+
+  link.href = elem["href"]
+  title.innerText = elem["title"]
+  image.src = elem["img"]
+  
+  video.classList.add("queueVideo") 
+  imageDiv.appendChild(image)
+
+  title.appendChild(link)
+  video.appendChild(imageDiv)
+  video.appendChild(title)
+  
+
+  queue.push(video.toString()) // to perserve queue later on
+
+  document.getElementById("fooDiv").appendChild(video);
+
+  return video
+}
+
+
 function redirectToYoutube(){
   chrome.tabs.update({url: "https://youtube.com"});
   window.close(); 
@@ -20,14 +48,9 @@ function generateQueue(){
       return;
     }
 
-    // console.log(response.payload)
-
     for(const elem of response.payload ){
       
-      const video = document.createElement("div");
-      video.href = elem["title"]
-      video.innerText = elem["title"]
-      video.classList.add("imageContainer") 
+      const video = generateVideo(elem)
 
       queue.push(video.toString()) // to perserve queue later on
 
