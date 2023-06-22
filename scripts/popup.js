@@ -10,13 +10,17 @@ function generateVideo(elem){
   const link  = document.createElement("a") // more used to actually store the link in an elem rather than for user side use
   const time  = document.createElement("p")
 
-
   link.href = elem["href"]
   title.innerText = elem["title"]
   time.innerText = elem["time"]
   image.src = elem["img"]
   
   video.classList.add("queueVideo") 
+  title.classList.add("title")
+  time.classList.add("time")
+  imageDiv.classList.add("thumbnail")
+
+
   imageDiv.appendChild(image)
   imageDiv.appendChild(time)
 
