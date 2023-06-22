@@ -3,16 +3,42 @@
 
 html
 {
-    width: 280px; /* max: 1000px */
+    width: 480px; /* max: 1000px */
     height: 400px; /* max: 750px */
     background-color: #333333;
     font-family: 'Roboto', sans-serif;
+    
 }
+
+li{
+  display:flex;
+}
+img{
+  float:left;
+}
+p{float:right}
 
 body{font-family: 'Roboto', sans-serif;}
 
 .video{
   font-family: 'Roboto', sans-serif;
+
+}
+.title{
+  float:right;
+
+}
+
+.thumbnailContainer{
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+.timeContainer{
+  background-color: red;
+
+  height:auto;
 }
 
 .imageContainer{
@@ -20,6 +46,16 @@ body{font-family: 'Roboto', sans-serif;}
     width: 100%;
     height: 50%;
 
+}
+
+.time{
+  position: absolute;
+  bottom: 7px;
+  right: 16px;
+}
+
+.thumbnail{
+  float:left;
 }
 
 .questionableIMG{

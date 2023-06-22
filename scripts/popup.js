@@ -34,8 +34,9 @@ function resolveHost(){
 
 function generateVideo(elem){
 
-  const video = document.createElement("div")
+  const video = document.createElement("li")
   const imageDiv = document.createElement("div")
+  const timeDiv = document.createElement("div")
   const image = document.createElement("img")
   const title = document.createElement("p")
   const link  = document.createElement("a") // more used to actually store the link in an elem rather than for user side use
@@ -46,16 +47,21 @@ function generateVideo(elem){
   time.innerText = elem["time"]
   image.src = elem["img"]
   
+  title.appendChild(link)
+
   video.classList.add("queueVideo") 
   title.classList.add("title")
   time.classList.add("time")
-  imageDiv.classList.add("thumbnail")
-
+  image.classList.add("thumbnail")
+  imageDiv.classList.add("thumbnailContainer")
+  time.classList.add("timeContainer")
 
   imageDiv.appendChild(image)
-  imageDiv.appendChild(time)
+  timeDiv.append(time)
+  imageDiv.appendChild(timeDiv)
 
-  title.appendChild(link)
+
+ 
   video.appendChild(imageDiv)
   video.appendChild(title)
   
@@ -87,12 +93,16 @@ function generateQueue(){
       return;
     }
 
-    for(const elem of response.payload ){
-      
-      const video = generateVideo(elem)
+    const queueContainer = document.createElement("ul")
+    queueContainer.setAttribute('id', 'queueContainer')
+    document.getElementById("fooDiv").appendChild(queueContainer)
 
-      document.getElementById("fooDiv").appendChild(video);
-     
+    for(const elem of response.payload ){
+    
+
+      const video = generateVideo(elem)
+      
+      queueContainer.appendChild(video)
 
     }
     document.getElementById("generate").remove()
