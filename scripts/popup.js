@@ -24,7 +24,7 @@ function generateQueue(){
 
     for(const elem of response.payload ){
       
-      const video = document.createElement("p");
+      const video = document.createElement("div");
       video.href = elem["title"]
       video.innerText = elem["title"]
       video.classList.add("imageContainer") 
