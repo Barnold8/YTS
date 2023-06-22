@@ -19,16 +19,14 @@ function processQueue(){
 
         for(const elem of queueContainer){
             // console.log(elem)
-            console.log(elem.childNodes)
+            // console.log(elem.childNodes)
             console.log()
-            // console.log(elem.querySelector("#thumbnail-container").querySelector(".yt-core-image--fill-parent-height"))
-            // console.log(elem.childNodes.getElementsByTagName("img"))
 
             meta_time = elem.innerText.match("[0-9]{0,2}:[0-9]{1,2}").toString()
             
             // seems to be the only way to get the title for a video element. YT, please don't change how your html is structured PLEASE 
             // possible there is some better way to parse these elements?
-            meta_title = elem.childNodes[2].childNodes[1].childNodes[5].innerText // possibly look into getelementsbytagname or some other premade func
+            meta_title = elem.querySelector("#video-title").innerText // possibly look into getelementsbytagname or some other premade func
 
             meta_href = elem.childNodes[2].href
             
