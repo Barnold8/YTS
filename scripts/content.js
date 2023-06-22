@@ -14,19 +14,17 @@ function processQueue(){
     queueContainer = document.getElementsByTagName("ytd-playlist-panel-video-renderer")
     queue = []
     imageClass = ".yt-core-image--fill-parent-height"
+    titleClass = "#video-title"
 
     if(queueContainer.length > 1){ // only sort queues longer than 1 elem, useless to sort 1 elem queue
 
         for(const elem of queueContainer){
             // console.log(elem)
             // console.log(elem.childNodes)
-            console.log()
-
+            
             meta_time = elem.innerText.match("[0-9]{0,2}:[0-9]{1,2}").toString()
             
-            // seems to be the only way to get the title for a video element. YT, please don't change how your html is structured PLEASE 
-            // possible there is some better way to parse these elements?
-            meta_title = elem.querySelector("#video-title").innerText // possibly look into getelementsbytagname or some other premade func
+            meta_title = elem.querySelector(titleClass).innerText 
 
             meta_href = elem.childNodes[2].href
             
