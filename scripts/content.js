@@ -19,6 +19,10 @@ function processQueue(){
 
         for(const elem of queueContainer){
             // console.log(elem)
+            console.log(elem.childNodes)
+            console.log()
+            // console.log(elem.querySelector("#thumbnail-container").querySelector(".yt-core-image--fill-parent-height"))
+            // console.log(elem.childNodes.getElementsByTagName("img"))
 
             meta_time = elem.innerText.match("[0-9]{0,2}:[0-9]{1,2}").toString()
             
@@ -28,7 +32,7 @@ function processQueue(){
 
             meta_href = elem.childNodes[2].href
             
-            meta_imgLink = elem.childNodes[2].childNodes[1].childNodes[3].childNodes[1].childNodes[2].innerHTML
+            meta_imgLink = elem.querySelector(imageClass).src
 
             meta_imgLink = (grabLink(meta_imgLink))[0].split(">")[0]
 
