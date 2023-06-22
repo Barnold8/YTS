@@ -16,7 +16,7 @@ li{
 img{
   float:left;
 }
-p{float:right}
+
 
 body{font-family: 'Roboto', sans-serif;}
 
@@ -24,10 +24,14 @@ body{font-family: 'Roboto', sans-serif;}
   font-family: 'Roboto', sans-serif;
 
 }
-.title{
-  float:right;
 
+.title{
+  float: right;
+  color: red;
+  top: 10px;
+  position: relative;
 }
+
 
 .thumbnailContainer{
   position: relative;
@@ -36,9 +40,14 @@ body{font-family: 'Roboto', sans-serif;}
 }
 
 .timeContainer{
-  background-color: red;
-
+  background-color: rgb(0, 0, 0);
   height:auto;
+  padding-left: 3%;
+  padding-right: 3%;
+  position: absolute;
+  bottom: 7px;
+  right: 16px;
+  border-radius: 20%;
 }
 
 .imageContainer{
@@ -48,11 +57,7 @@ body{font-family: 'Roboto', sans-serif;}
 
 }
 
-.time{
-  position: absolute;
-  bottom: 7px;
-  right: 16px;
-}
+
 
 .thumbnail{
   float:left;

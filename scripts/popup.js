@@ -32,7 +32,7 @@ function resolveHost(){
 
 }
 
-function generateVideo(elem){
+function generateVideo(elem){ // add div for the title
 
   const video = document.createElement("li")
   const imageDiv = document.createElement("div")
@@ -44,24 +44,21 @@ function generateVideo(elem){
 
   link.href = elem["href"]
   title.innerText = elem["title"]
-  time.innerText = elem["time"]
+  timeDiv.innerText = elem["time"]
   image.src = elem["img"]
   
   title.appendChild(link)
 
   video.classList.add("queueVideo") 
   title.classList.add("title")
-  time.classList.add("time")
   image.classList.add("thumbnail")
   imageDiv.classList.add("thumbnailContainer")
-  time.classList.add("timeContainer")
+  timeDiv.classList.add("timeContainer")
 
   imageDiv.appendChild(image)
-  timeDiv.append(time)
+  // timeDiv.append(time)
   imageDiv.appendChild(timeDiv)
 
-
- 
   video.appendChild(imageDiv)
   video.appendChild(title)
   
@@ -99,7 +96,6 @@ function generateQueue(){
 
     for(const elem of response.payload ){
     
-
       const video = generateVideo(elem)
       
       queueContainer.appendChild(video)
@@ -125,7 +121,7 @@ window.onload = async function() {
   const tabs = await chrome.tabs.query({currentWindow: true, active: true});
   const URL = tabs[0].url
 
-  if(!(URL.includes("youtube"))){
+  if(!(URL.includes("youtube"))){ // TODO:  Fix the weird CSS for the redirect robot 
 
     document.getElementById("fooDiv").remove()
 
