@@ -34,8 +34,24 @@ function resolveHost(){
 
 function swapVideo(evt){
 
-  console.log(`dir is ${evt.currentTarget.func_param}`)
+  let idSTR = "videoid"
+  var element = evt.currentTarget
+  var direction = element.func_param
+  var videoID = element.closest('li').getAttribute(idSTR)
 
+  chrome.storage.session.get(["queueInfo"]).then((result) => { // reinit the queue 
+
+    
+
+  });
+//   chrome.storage.session.set({
+//     queueInfo:[{ 
+//                 intialQueue: true,
+//                 videoQueue: response.payload 
+//               }]
+// }).then(() => {
+//                 console.log("Initial queue has been set");
+// });
 }
 
 function generateVideo(elem){ // add div for the title
@@ -67,6 +83,7 @@ function generateVideo(elem){ // add div for the title
   
   up.setAttribute('id', 'up')
   down.setAttribute('id', 'down')
+  video.setAttribute('videoID',elem["videoID"])
 
   title.appendChild(link)
 
@@ -91,9 +108,6 @@ function generateVideo(elem){ // add div for the title
 
   video.appendChild(imageDiv)
   video.appendChild(titleDiv)
-
-
-  // queue.push(video.toString()) // to perserve queue later on
 
   document.getElementById("fooDiv").appendChild(video);
 
@@ -120,6 +134,7 @@ function redirectToYoutube(){
 function generateQueue(){
 
   (async () => {
+
     const tabs = await chrome.tabs.query({currentWindow: true, active: true});
     const response = await chrome.tabs.sendMessage(tabs[0].id, {type: "getInitialQueue"});
 
@@ -141,6 +156,7 @@ function generateQueue(){
       queueContainer.appendChild(video)
 
     }
+
     document.getElementById("generate").remove()
     chrome.storage.session.set({
         queueInfo:[{ 

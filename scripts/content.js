@@ -36,10 +36,8 @@ function processQueue(){
 
 
     if(queueContainer.length > 1){ // only sort queues longer than 1 elem, useless to sort 1 elem queue
-
+        let meta_videoID = 0
         for(const elem of queueContainer){
-            // console.log(elem)
-            // console.log(elem.childNodes)
             
             meta_time = elem.innerText.match(timeRegex).toString()
         
@@ -51,13 +49,17 @@ function processQueue(){
 
             meta_imgLink = (grabLink(meta_imgLink))[0].split(">")[0]
 
+            meta_queueLength = queueContainer.length
+
             queue.push({
                 time: meta_time, 
                 title: meta_title, 
                 href: meta_href,
-                img: meta_imgLink
+                img: meta_imgLink,
+                videoID: meta_videoID,
+                queueLength: meta_queueLength
             })
-            
+            meta_videoID++
         }
 
         queue.sort(function compare(t1,t2){
