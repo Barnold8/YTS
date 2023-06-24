@@ -9,12 +9,31 @@ function grabLink(text){
         return link
 }
 
+function timeVideoProcess(time,index=0,seconds = 0){
+  
+    if(time.length < 1){
+      return seconds
+    }
+        
+    time.shift()
+  
+    return(timeVideoProcess(
+            time,
+            index+1,
+            seconds + parseInt(time[0],10) * Math.pow(60,index) 
+        ))
+  
+}
+
 function processQueue(){
 
     queueContainer = document.getElementsByTagName("ytd-playlist-panel-video-renderer")
     queue = []
     imageClass = ".yt-core-image--fill-parent-height"
     titleClass = "#video-title"
+    timeRegex =  /(\d{1,2}:)?\d{1,2}:\d\d/g
+
+
 
     if(queueContainer.length > 1){ // only sort queues longer than 1 elem, useless to sort 1 elem queue
 
@@ -22,8 +41,8 @@ function processQueue(){
             // console.log(elem)
             // console.log(elem.childNodes)
             
-            meta_time = elem.innerText.match("[0-9]{0,2}:[0-9]{1,2}").toString()
-            
+            meta_time = elem.innerText.match(timeRegex).toString()
+        
             meta_title = elem.querySelector(titleClass).innerText 
 
             meta_href = elem.childNodes[2].href
@@ -40,15 +59,15 @@ function processQueue(){
             })
             
         }
-        console.log(queue)
+
         queue.sort(function compare(t1,t2){
 
             timeLeft = t1["time"].split(":")
             timeRight = t2["time"].split(":")
-    
-            timeLeft = parseInt(timeLeft[0])*60 + parseInt(timeLeft[1])
-            timeRight = parseInt(timeRight[0])*60 + parseInt(timeRight[1])
-    
+            
+            timeLeft = timeVideoProcess(timeLeft,0,0)
+            timeRight = timeVideoProcess(timeRight,0,0)
+            
             return timeLeft - timeRight
     
         })

@@ -34,7 +34,7 @@ Right now, all you can do is click "generate queue".
 
     * implement error handling for null queue
     * replace "fooDiv" placeholder id with more meaningful ID
-    * display a queue on the popup window - Partly
+    * display a queue on the popup window - DONE
     * intercept youtube autoplay video change by redirection 
     * button to clear queue
     * detect youtube queue update, add to extension queue, resort
