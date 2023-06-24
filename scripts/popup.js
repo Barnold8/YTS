@@ -32,6 +32,31 @@ function resolveHost(){
 
 }
 
+function exchangeElements(element1, element2){ // with thanks to https://stackoverflow.com/questions/9732624/how-to-swap-dom-child-nodes-in-javascript
+                                               // why make something so simple so weird to achieve JS?
+    var clonedElement1 = element1.cloneNode(true);
+    var clonedElement2 = element2.cloneNode(true);
+
+    element2.parentNode.replaceChild(clonedElement1, element2);
+    element1.parentNode.replaceChild(clonedElement2, element1);
+
+    return clonedElement1;
+}
+
+function swapByDirection(direction,videoID){
+
+  below = document.querySelectorAll(`[videoid="${parseInt(videoID)+direction}"]`)
+  currentVideo = document.querySelectorAll(`[videoid="${videoID}"]`)
+
+  let bufferNUM = below[0].getAttribute("videoid")
+
+  below[0].setAttribute("videoid",currentVideo[0].getAttribute("videoid"))
+  currentVideo[0].setAttribute("videoid",bufferNUM[0])
+
+  exchangeElements(below[0],currentVideo[0])
+
+}
+
 function swapVideo(evt){
 
   let idSTR = "videoid"
@@ -42,31 +67,40 @@ function swapVideo(evt){
   chrome.storage.session.get(["queueInfo"]).then((result) => { // could be good idea to error check here 
 
     let queueLength = result.queueInfo[0]["videoQueue"][0].queueLength // bit long but ok for now
-
+    // Array.from overkill? eh who knows
     switch(direction){
       case "up":
           if(videoID > 0){
-              console.log("up")
-              console.log(videoID, queueLength)
-          }
+
+            swapByDirection(-1,videoID)
+            
+            Array.from(
+              document.getElementsByClassName("videoFunc"))
+                .forEach(function(element) {
+                    element.addEventListener('click', swapVideo);
+                    element.func_param = element.id
+              });
+
+          }else{console.log(videoID)}
         break; 
 
       case "down":
           if(videoID < queueLength - 1){ // -1 to account for array indexing logic
-            console.log("down")
-            console.log(videoID, queueLength)
-          }
+
+            swapByDirection(1,videoID)
+            Array.from(
+              document.getElementsByClassName("videoFunc"))
+                .forEach(function(element) {
+                    element.addEventListener('click', swapVideo);
+                    element.func_param = element.id
+              });
+          }else{console.log(videoID)}
         break; 
 
       default:
+        console.log(videoID)
         break;
     }
-
-    // console.log(queueLength)
-    // console.log(result.queueInfo[0]["videoQueue"][0])
-
-
-
   });
 
 //   chrome.storage.session.set({
