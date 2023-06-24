@@ -39,13 +39,36 @@ function swapVideo(evt){
   var direction = element.func_param
   var videoID = element.closest('li').getAttribute(idSTR)
   
-  chrome.storage.session.get(["queueInfo"]).then((result) => { 
+  chrome.storage.session.get(["queueInfo"]).then((result) => { // could be good idea to error check here 
 
     let queueLength = result.queueInfo[0]["videoQueue"][0].queueLength // bit long but ok for now
 
-    console.log(queueLength)
+    switch(direction){
+      case "up":
+          if(videoID > 0){
+              console.log("up")
+              console.log(videoID, queueLength)
+          }
+        break; 
+
+      case "down":
+          if(videoID < queueLength - 1){ // -1 to account for array indexing logic
+            console.log("down")
+            console.log(videoID, queueLength)
+          }
+        break; 
+
+      default:
+        break;
+    }
+
+    // console.log(queueLength)
+    // console.log(result.queueInfo[0]["videoQueue"][0])
+
+
 
   });
+
 //   chrome.storage.session.set({
 //     queueInfo:[{ 
 //                 intialQueue: true,
