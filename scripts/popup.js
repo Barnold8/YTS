@@ -32,6 +32,12 @@ function resolveHost(){
 
 }
 
+function swapVideo(evt){
+
+  console.log(`dir is ${evt.currentTarget.func_param}`)
+
+}
+
 function generateVideo(elem){ // add div for the title
 
   const arrowWidth = 15
@@ -59,6 +65,9 @@ function generateVideo(elem){ // add div for the title
   down.innerHTML = downArrow
   up.innerHTML = upArrow
   
+  up.setAttribute('id', 'up')
+  down.setAttribute('id', 'down')
+
   title.appendChild(link)
 
   video.classList.add("queueContainer") 
@@ -88,8 +97,19 @@ function generateVideo(elem){ // add div for the title
 
   document.getElementById("fooDiv").appendChild(video);
 
+  Array.from(
+      document.getElementsByClassName("videoFunc"))
+        .forEach(function(element) {
+            element.addEventListener('click', swapVideo);
+            element.func_param = element.id
+      });
+
+
+  
   return video
 }
+
+
 
 
 function redirectToYoutube(){

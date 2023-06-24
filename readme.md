@@ -38,4 +38,4 @@ Right now, all you can do is click "generate queue".
     * intercept youtube autoplay video change by redirection 
     * button to clear queue
     * detect youtube queue update, add to extension queue, resort
-    * allow time regex to pick up on hours
+    * allow time regex to pick up on hours - DONE
