@@ -67,9 +67,12 @@ function processQueue(){
             timeLeft = t1["time"].split(":")
             timeRight = t2["time"].split(":")
             
-            timeLeft = timeVideoProcess(timeLeft,0,0)
-            timeRight = timeVideoProcess(timeRight,0,0)
+            // timeLeft = timeVideoProcess(timeLeft,0,0)
+            // timeRight = timeVideoProcess(timeRight,0,0)
             
+            timeLeft = parseInt(timeLeft[0])*60 + parseInt(timeLeft[1])
+            timeRight = parseInt(timeRight[0])*60 + parseInt(timeRight[1])
+
             return timeLeft - timeRight
     
         })
