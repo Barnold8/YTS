@@ -76,14 +76,14 @@ function swapVideo(evt){
             
             console.log( result.queueInfo[0]["videoQueue"])
 
-            videoOne = result.queueInfo[0]["videoQueue"][videoID]
-            videoTwo =  result.queueInfo[0]["videoQueue"][videoID]
+            // videoOne = result.queueInfo[0]["videoQueue"][videoID]
+            // videoTwo =  result.queueInfo[0]["videoQueue"][videoID]
 
-            bufferNumber = videoOne["videoID"]
-            videoOne["videoID"] = videoTwo["videoID"]
-            videoTwo["videoID"] = bufferNumber
+            // bufferNumber = videoOne["videoID"]
+            // videoOne["videoID"] = videoTwo["videoID"]
+            // videoTwo["videoID"] = bufferNumber
 
-            console.log( result.queueInfo[0]["videoQueue"])
+            // console.log( result.queueInfo[0]["videoQueue"])
             
             Array.from(
               document.getElementsByClassName("videoFunc"))
