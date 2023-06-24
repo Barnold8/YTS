@@ -40,3 +40,6 @@ Right now, all you can do is click "generate queue".
     * delete from the queue
     * detect youtube queue update, add to extension queue, resort
     * allow time regex to pick up on hours - DONE
+    * fix video sorting bug. May be due to new regex
+    * change metadata for video queue on popup.js change event
+    

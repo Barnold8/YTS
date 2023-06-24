@@ -48,10 +48,10 @@ function swapByDirection(direction,videoID){
   below = document.querySelectorAll(`[videoid="${parseInt(videoID)+direction}"]`)
   currentVideo = document.querySelectorAll(`[videoid="${videoID}"]`)
 
-  let bufferNUM = below[0].getAttribute("videoid")
+  let bufferNumber = below[0].getAttribute("videoid")
 
   below[0].setAttribute("videoid",currentVideo[0].getAttribute("videoid"))
-  currentVideo[0].setAttribute("videoid",bufferNUM[0])
+  currentVideo[0].setAttribute("videoid",bufferNumber[0])
 
   exchangeElements(below[0],currentVideo[0])
 
@@ -74,6 +74,17 @@ function swapVideo(evt){
 
             swapByDirection(-1,videoID)
             
+            console.log( result.queueInfo[0]["videoQueue"])
+
+            videoOne = result.queueInfo[0]["videoQueue"][videoID]
+            videoTwo =  result.queueInfo[0]["videoQueue"][videoID]
+
+            bufferNumber = videoOne["videoID"]
+            videoOne["videoID"] = videoTwo["videoID"]
+            videoTwo["videoID"] = bufferNumber
+
+            console.log( result.queueInfo[0]["videoQueue"])
+            
             Array.from(
               document.getElementsByClassName("videoFunc"))
                 .forEach(function(element) {
@@ -81,7 +92,7 @@ function swapVideo(evt){
                     element.func_param = element.id
               });
 
-          }else{console.log(videoID)}
+          }
         break; 
 
       case "down":
@@ -94,7 +105,7 @@ function swapVideo(evt){
                     element.addEventListener('click', swapVideo);
                     element.func_param = element.id
               });
-          }else{console.log(videoID)}
+          }
         break; 
 
       default:
