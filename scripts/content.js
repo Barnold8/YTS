@@ -49,7 +49,7 @@ function processQueue(){
 
             meta_imgLink = (grabLink(meta_imgLink))[0].split(">")[0]
 
-            meta_queueLength = queueContainer.length
+            meta_queueLength = queueContainer.length // May change this so the payload contains the length rather than all of the videos. This just seems nicer for me rn
 
             queue.push({
                 time: meta_time, 

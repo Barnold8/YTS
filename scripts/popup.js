@@ -38,10 +38,12 @@ function swapVideo(evt){
   var element = evt.currentTarget
   var direction = element.func_param
   var videoID = element.closest('li').getAttribute(idSTR)
+  
+  chrome.storage.session.get(["queueInfo"]).then((result) => { 
 
-  chrome.storage.session.get(["queueInfo"]).then((result) => { // reinit the queue 
+    let queueLength = result.queueInfo[0]["videoQueue"][0].queueLength // bit long but ok for now
 
-    
+    console.log(queueLength)
 
   });
 //   chrome.storage.session.set({
