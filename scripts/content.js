@@ -31,15 +31,15 @@ function processQueue(){
     queue = []
     imageClass = ".yt-core-image--fill-parent-height"
     titleClass = "#video-title"
-    timeRegex =  /(\d{1,2}:)?\d{1,2}:\d\d/g
-
+    // timeRegex =  /(\d{1,2}:)?\d{1,2}:\d\d/g
+    
 
 
     if(queueContainer.length > 1){ // only sort queues longer than 1 elem, useless to sort 1 elem queue
         let meta_videoID = 0
         for(const elem of queueContainer){
             
-            meta_time = elem.innerText.match(timeRegex).toString()
+            meta_time = elem.innerText.match("[0-9]{0,2}:[0-9]{1,2}").toString()
         
             meta_title = elem.querySelector(titleClass).innerText 
 

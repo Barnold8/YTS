@@ -32,6 +32,18 @@ function resolveHost(){
 
 }
 
+function exchangeElements(element1, element2){ // with thanks to https://stackoverflow.com/questions/9732624/how-to-swap-dom-child-nodes-in-javascript
+  // why make something so simple so weird to achieve JS?
+var clonedElement1 = element1.cloneNode(true);
+var clonedElement2 = element2.cloneNode(true);
+
+element2.parentNode.replaceChild(clonedElement1, element2);
+element1.parentNode.replaceChild(clonedElement2, element1);
+
+return clonedElement1;
+}
+
+
 function swapVideo(evt){
 
   let idSTR = "videoid"
