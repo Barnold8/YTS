@@ -34,13 +34,14 @@ function resolveHost(){
 
 function exchangeElements(element1, element2){ // with thanks to https://stackoverflow.com/questions/9732624/how-to-swap-dom-child-nodes-in-javascript
   // why make something so simple so weird to achieve JS?
-var clonedElement1 = element1.cloneNode(true);
-var clonedElement2 = element2.cloneNode(true);
+  var clonedElement1 = element1.cloneNode(true);
+  var clonedElement2 = element2.cloneNode(true);
 
-element2.parentNode.replaceChild(clonedElement1, element2);
-element1.parentNode.replaceChild(clonedElement2, element1);
+  element2.parentNode.replaceChild(clonedElement1, element2);
+  element1.parentNode.replaceChild(clonedElement2, element1);
 
-return clonedElement1;
+  return clonedElement1;
+
 }
 
 
@@ -58,15 +59,43 @@ function swapVideo(evt){
     switch(direction){
       case "up":
           if(videoID > 0){
+            
               console.log("up")
               console.log(videoID, queueLength)
+              
+              above = document.querySelectorAll(`[videoid="${parseInt(videoID)-1}"]`)
+              currentVideo = document.querySelectorAll(`[videoid="${videoID}"]`)
+            
+              let bufferNumber = above[0].getAttribute("videoid")
+            
+              above[0].setAttribute("videoid",currentVideo[0].getAttribute("videoid"))
+              currentVideo[0].setAttribute("videoid",bufferNumber[0])
+            
+              exchangeElements(above[0],currentVideo[0])
+
           }
         break; 
 
       case "down":
           if(videoID < queueLength - 1){ // -1 to account for array indexing logic
+
             console.log("down")
             console.log(videoID, queueLength)
+            
+            below = document.querySelectorAll(`[videoid="${parseInt(videoID)+1}"]`)
+            currentVideo = document.querySelectorAll(`[videoid="${videoID}"]`)
+          
+            let bufferNumber = below[0].getAttribute("videoid")
+          
+            console.log(
+              `Swapping ${bufferNumber} and ${currentVideo[0].getAttribute("videoid")}`
+            )
+
+            below[0].setAttribute("videoid",currentVideo[0].getAttribute("videoid"))
+            currentVideo[0].setAttribute("videoid",bufferNumber[0])
+          
+            exchangeElements(below[0],currentVideo[0])
+
           }
         break; 
 

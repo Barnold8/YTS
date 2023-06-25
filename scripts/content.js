@@ -76,7 +76,15 @@ function processQueue(){
             return timeLeft - timeRight
     
         })
-        
+        let newID = 0
+        Array.from(
+                queue
+            )
+              .forEach(function(element) {
+                  element["videoID"] = newID
+                  newID++
+            });
+      
         return queue
     }
     return undefined
