@@ -95,7 +95,30 @@ function swapVideo(evt){
                     element.addEventListener('click', swapVideo);
                     element.func_param = element.id
               });
-        
+              chrome.storage.session.get(["queueInfo"]).then((result) => { // reinit the queue 
+              
+                videoOne = result.queueInfo[0]["videoQueue"][parseInt(videoID)]
+                videoTwo = result.queueInfo[0]["videoQueue"][parseInt(videoID)+1]
+              
+                videoOne["videoID"] = parseInt(videoOne["videoID"]) + 1
+                videoTwo["videoID"] = parseInt(videoTwo["videoID"]) - 1
+                
+                result.queueInfo[0]["videoQueue"][parseInt(videoID)] = videoTwo
+                result.queueInfo[0]["videoQueue"][parseInt(videoID)+1] = videoOne
+                
+                console.log(result.queueInfo[0]["videoQueue"])
+
+                chrome.storage.session.set({
+                    queueInfo:[{    
+                                    intialQueue: result.queueInfo[0]["intialQueue"],
+                                    videoQueue: result.queueInfo[0]["videoQueue"]
+                              }]
+                }).then(() => {
+                                console.log("Initial queue has been set");
+                });
+                
+
+          });
 
           }
         break; 
