@@ -73,6 +73,14 @@ function swapVideo(evt){
             
               exchangeElements(above[0],currentVideo[0])
 
+              Array.from(
+                document.getElementsByClassName("videoFunc"))
+                  .forEach(function(element) {
+                      element.addEventListener('click', swapVideo);
+                      element.func_param = element.id
+                });
+          
+
           }
         break; 
 
@@ -95,6 +103,14 @@ function swapVideo(evt){
             currentVideo[0].setAttribute("videoid",bufferNumber[0])
           
             exchangeElements(below[0],currentVideo[0])
+
+            Array.from(
+              document.getElementsByClassName("videoFunc"))
+                .forEach(function(element) {
+                    element.addEventListener('click', swapVideo);
+                    element.func_param = element.id
+              });
+        
 
           }
         break; 
