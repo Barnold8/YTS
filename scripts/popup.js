@@ -244,7 +244,7 @@ function redirectToYoutube(){
 }
 
 function generateQueue(){
-
+  
   (async () => {
 
     const tabs = await chrome.tabs.query({currentWindow: true, active: true});
@@ -301,11 +301,19 @@ window.onload = async function() {
   }
 
   chrome.storage.session.get(["queueInfo"]).then((result) => { // reinit the queue 
-        // if(result.queueInfo != null && result.queueInfo[0]["intialQueue"] === true){
-        //     // console.log(result)
-        //     document.body.innerText = "Hello"
-        //     return
-        // }
+        if(result.queueInfo != null && result.queueInfo[0]["intialQueue"] === true){
+            
+            console.log(result.queueInfo[0]["videoQueue"])
+
+            for(const elem of result.queueInfo[0]["videoQueue"]){
+    
+              const video = generateVideo(elem)
+              
+              // queueContainer.appendChild(video)
+        
+            }
+            return
+        }
 
         var genQueue = document.createElement("button")
         genQueue.classList.add("generateQueueButton")
