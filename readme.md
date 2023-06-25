@@ -37,6 +37,9 @@ Right now, all you can do is click "generate queue".
     * button to clear queue
     * delete from the queue
     * detect youtube queue update, add to extension queue, resort
-    * fix video sorting bug. May be due to new regex
-    * change metadata for video queue on popup.js change event
 
+
+## Known bugs
+
+    * Videos > 1hr
+        * turns video queue payload in undefined. Could be rooted in time sorting code
