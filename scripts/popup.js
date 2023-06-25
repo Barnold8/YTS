@@ -45,6 +45,20 @@ function exchangeElements(element1, element2){ // with thanks to https://stackov
 }
 
 
+function videoExchange(dir,videoID){
+
+    otherVideo = document.querySelectorAll(`[videoid="${parseInt(videoID)+dir}"]`)
+    currentVideo = document.querySelectorAll(`[videoid="${videoID}"]`)
+
+    let bufferNumber = otherVideo[0].getAttribute("videoid")
+
+    otherVideo[0].setAttribute("videoid",currentVideo[0].getAttribute("videoid"))
+    currentVideo[0].setAttribute("videoid",bufferNumber[0])
+    
+    exchangeElements(otherVideo[0],currentVideo[0])
+
+}
+
 function swapVideo(evt){
 
   let idSTR = "videoid"
@@ -60,18 +74,7 @@ function swapVideo(evt){
       case "up":
           if(videoID > 0){
             
-              console.log("up")
-              console.log(videoID, queueLength)
-              
-              above = document.querySelectorAll(`[videoid="${parseInt(videoID)-1}"]`)
-              currentVideo = document.querySelectorAll(`[videoid="${videoID}"]`)
-            
-              let bufferNumber = above[0].getAttribute("videoid")
-            
-              above[0].setAttribute("videoid",currentVideo[0].getAttribute("videoid"))
-              currentVideo[0].setAttribute("videoid",bufferNumber[0])
-            
-              exchangeElements(above[0],currentVideo[0])
+              videoExchange(-1,videoID)
 
               Array.from(
                 document.getElementsByClassName("videoFunc"))
@@ -87,22 +90,7 @@ function swapVideo(evt){
       case "down":
           if(videoID < queueLength - 1){ // -1 to account for array indexing logic
 
-            console.log("down")
-            console.log(videoID, queueLength)
-            
-            below = document.querySelectorAll(`[videoid="${parseInt(videoID)+1}"]`)
-            currentVideo = document.querySelectorAll(`[videoid="${videoID}"]`)
-          
-            let bufferNumber = below[0].getAttribute("videoid")
-          
-            console.log(
-              `Swapping ${bufferNumber} and ${currentVideo[0].getAttribute("videoid")}`
-            )
-
-            below[0].setAttribute("videoid",currentVideo[0].getAttribute("videoid"))
-            currentVideo[0].setAttribute("videoid",bufferNumber[0])
-          
-            exchangeElements(below[0],currentVideo[0])
+            videoExchange(1,videoID)
 
             Array.from(
               document.getElementsByClassName("videoFunc"))

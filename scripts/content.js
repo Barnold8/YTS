@@ -39,7 +39,7 @@ function processQueue(){
     queue = []
     imageClass = ".yt-core-image--fill-parent-height"
     titleClass = "#video-title"
-    // timeRegex =  /(\d{1,2}:)?\d{1,2}:\d\d/g
+    timeRegex =  /(\d{1,2}:)?\d{1,2}:\d\d/g
     
 
 
@@ -47,7 +47,7 @@ function processQueue(){
         let meta_videoID = 0
         for(const elem of queueContainer){
             
-            meta_time = elem.innerText.match("[0-9]{0,2}:[0-9]{1,2}").toString()
+            meta_time = elem.innerText.match(timeRegex).toString()
         
             meta_title = elem.querySelector(titleClass).innerText 
 
@@ -74,16 +74,10 @@ function processQueue(){
 
             timeLeft = t1["time"].split(":")
             timeRight = t2["time"].split(":")
-            if(timeLeft.length)
-            console.log(`timeRight { ${timeLeft}| ${timeVideoProcess(timeLeft,0,0)} | ${typeof(timeVideoProcess(timeLeft,0,0))}}`)
-            console.log(`timeRight { ${timeRight}| ${timeVideoProcess(timeRight,0,0)} | ${typeof(timeVideoProcess(timeRight,0,0))}}`)
 
             timeLeft = timeVideoProcess(timeLeft,0,0)
             timeRight = timeVideoProcess(timeRight,0,0)
             
-            // timeLeft = parseInt(timeLeft[0])*60 + parseInt(timeLeft[1])
-            // timeRight = parseInt(timeRight[0])*60 + parseInt(timeRight[1])
-
             return timeLeft - timeRight
     
         })
