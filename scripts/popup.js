@@ -1,6 +1,3 @@
-
-// Note: fooDiv is a placeholder ID
-
 function resolveHost(){
 
   var imageContainer = document.createElement("div")
@@ -179,7 +176,7 @@ function generateVideo(elem){ // add div for the title
   video.appendChild(imageDiv)
   video.appendChild(titleDiv)
 
-  document.getElementById("fooDiv").appendChild(video);
+  document.getElementById("mainContent").appendChild(video);
 
   Array.from(
       document.getElementsByClassName("videoFunc"))
@@ -211,13 +208,13 @@ function generateQueue(){
     if(response.payload === null){
       const node = document.createElement("div");
       node.innerText = "No queue was found, try refreshing the page."
-      document.getElementById("fooDiv").appendChild(node);
+      document.getElementById("mainContent").appendChild(node);
       return;
     }
 
     const queueContainer = document.createElement("ul")
     queueContainer.setAttribute('id', 'queueContainer')
-    document.getElementById("fooDiv").appendChild(queueContainer)
+    document.getElementById("mainContent").appendChild(queueContainer)
 
     for(const elem of response.payload ){
     
@@ -249,7 +246,7 @@ window.onload = async function() {
 
   if(!(URL.includes("youtube"))){ // TODO:  Fix the weird CSS for the redirect robot 
 
-    document.getElementById("fooDiv").remove()
+    document.getElementById("mainContent").remove()
 
     resolveHost()
 

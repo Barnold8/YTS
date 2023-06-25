@@ -33,14 +33,10 @@ Right now, all you can do is click "generate queue".
 ## TODO
 
     * implement error handling for null queue
-    * replace "fooDiv" placeholder id with more meaningful ID
-    * display a queue on the popup window - DONE
     * intercept youtube autoplay video change by redirection 
     * button to clear queue
     * delete from the queue
     * detect youtube queue update, add to extension queue, resort
-    * allow time regex to pick up on hours - DONE - Possible bug
     * fix video sorting bug. May be due to new regex
     * change metadata for video queue on popup.js change event
-    * possible bug: could be that the sorting disallows some videos to be moved properly - FIXED - DONE
-        * turns out that the top cannot be interacted with besides it going "up" which swaps it for the bottom element. Could be good to actually implement this 
+
