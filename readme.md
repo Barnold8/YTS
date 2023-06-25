@@ -42,5 +42,5 @@ Right now, all you can do is click "generate queue".
     * allow time regex to pick up on hours - DONE - Possible bug
     * fix video sorting bug. May be due to new regex
     * change metadata for video queue on popup.js change event
-    * possible bug: could be that the sorting disallows some videos to be moved properly
+    * possible bug: could be that the sorting disallows some videos to be moved properly - FIXED - DONE
         * turns out that the top cannot be interacted with besides it going "up" which swaps it for the bottom element. Could be good to actually implement this 

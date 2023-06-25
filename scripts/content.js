@@ -11,17 +11,25 @@ function grabLink(text){
 
 function timeVideoProcess(time,index=0,seconds = 0){
   
-    if(time.length < 1){
-      return seconds
-    }
-        
-    time.shift()
+    // if(time.length < 1 || time[0] === undefined){
+    //   return seconds
+    // }
+                                                                // maybe revert back to a recursive definition in a different iteration
+    // time.shift()
+    // console.log(`time[0] is ${time[0]}`)
   
-    return(timeVideoProcess(
-            time,
-            index+1,
-            seconds + parseInt(time[0],10) * Math.pow(60,index) 
-        ))
+    // return(timeVideoProcess(
+    //         time,
+    //         index+1,
+    //         seconds + parseInt(time[0],10) * Math.pow(60,index) 
+    //     ))
+
+    if(time.length == 3){
+
+        return parseInt(time[0],10) * Math.pow(60,2)  + parseInt(time[0],10) * Math.pow(60,1) + parseInt(time[0],10) * Math.pow(60,0)
+    }else{
+        return parseInt(time[0],10) * Math.pow(60,1) + parseInt(time[0],10) * Math.pow(60,0)
+    }
   
 }
 
@@ -66,12 +74,15 @@ function processQueue(){
 
             timeLeft = t1["time"].split(":")
             timeRight = t2["time"].split(":")
+            if(timeLeft.length)
+            console.log(`timeRight { ${timeLeft}| ${timeVideoProcess(timeLeft,0,0)} | ${typeof(timeVideoProcess(timeLeft,0,0))}}`)
+            console.log(`timeRight { ${timeRight}| ${timeVideoProcess(timeRight,0,0)} | ${typeof(timeVideoProcess(timeRight,0,0))}}`)
+
+            timeLeft = timeVideoProcess(timeLeft,0,0)
+            timeRight = timeVideoProcess(timeRight,0,0)
             
-            // timeLeft = timeVideoProcess(timeLeft,0,0)
-            // timeRight = timeVideoProcess(timeRight,0,0)
-            
-            timeLeft = parseInt(timeLeft[0])*60 + parseInt(timeLeft[1])
-            timeRight = parseInt(timeRight[0])*60 + parseInt(timeRight[1])
+            // timeLeft = parseInt(timeLeft[0])*60 + parseInt(timeLeft[1])
+            // timeRight = parseInt(timeRight[0])*60 + parseInt(timeRight[1])
 
             return timeLeft - timeRight
     
