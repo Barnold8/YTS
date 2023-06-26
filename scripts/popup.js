@@ -166,7 +166,7 @@ function swapVideo(evt){
 // });
 }
 
-function generateVideo(elem){ // add div for the title
+function generateVideo(elem){ 
 
   const arrowWidth = 15
   const arrowHeight = 15
@@ -235,9 +235,6 @@ function generateVideo(elem){ // add div for the title
   return video
 }
 
-
-
-
 function redirectToYoutube(){
   chrome.tabs.update({url: "https://youtube.com"});
   window.close(); 
@@ -279,7 +276,7 @@ function generateQueue(){
                     console.log("Initial queue has been set");
     });
     
-
+   
 
   })();
 
@@ -327,3 +324,8 @@ window.onload = async function() {
   });
 
 }
+
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+  chrome.tabs.update({url: "https://google.com"});
+  window.close(); 
+});

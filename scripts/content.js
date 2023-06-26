@@ -2,6 +2,13 @@
 //TODO: 
     // error handling for no video queues available
 
+function foo(){
+
+    var element = evt.currentTarget
+    console.log(element.outerText)
+
+}
+
 function grabLink(text){
 
         var urlRegex = /(https?:\/\/[^\s]+)/g;
@@ -41,8 +48,6 @@ function processQueue(){
     titleClass = "#video-title"
     timeRegex =  /(\d{1,2}:)?\d{1,2}:\d\d/g
     
-
-
     if(queueContainer.length > 1){ // only sort queues longer than 1 elem, useless to sort 1 elem queue
         let meta_videoID = 0
         for(const elem of queueContainer){
@@ -90,20 +95,21 @@ function processQueue(){
                   element["videoID"] = newID
                   newID++
             });
-      
+        
         return queue
     }
-    return undefined
+    return null
 }
 
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
         switch(request.type){
             case "getInitialQueue":
-                sendResponse({payload: processQueue()})
+                sendResponse({payload: processQueue(), message: null})
                 break
             default:
                 sendResponse({payload: null,message: `Message was ${request.type}`})
+                
                 break;
             
         }
@@ -112,6 +118,10 @@ chrome.runtime.onMessage.addListener(
   );
 
 
-
-
+window.onbeforeunload = async function (e) {
+    chrome.runtime.sendMessage({
+        payload: "nothing rn"
+    })
+    
+};
 
