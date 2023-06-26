@@ -116,6 +116,8 @@ chrome.runtime.onMessage.addListener(
     }
   );
 
+console.log(document.getElementsByTagName("ytd-playlist-panel-renderer"))
+console.log(document.getElementsByTagName("ytd-playlist-panel-renderer").item(1))
 
 
 

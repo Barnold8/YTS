@@ -270,10 +270,13 @@ function generateQueue(){
     chrome.storage.session.set({
         queueInfo:[{ 
                     intialQueue: true,
-                    videoQueue: response.payload 
+                    videoQueue: response.payload,
+                    currentVideo: response.payload[0],
+                    nextVideo:  response.payload[1]
                   }]
     }).then(() => {
-                    console.log("Initial queue has been set");
+          chrome.tabs.update({url: response.payload[0].href});
+          window.close(); 
     });
     
    
@@ -328,18 +331,3 @@ window.onload = async function() {
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 
 });
-
-// chrome.tabs.onUpdated.addListener(async function
-//   (tabId, changeInfo, tab) {
-//     if (changeInfo.url) {
-//       chrome.storage.session.get(["queueInfo"]).then((result) => { // reinit the queue 
-//         if(result.queueInfo != null && result.queueInfo[0]["intialQueue"] === true){
-//             chrome.tabs.update({url: "https://youtube.com"});
-//             window.close(); 
-//             console.log("Changing video")
-//             return
-//         }
-//       });
-//     }
-//   }
-// );
