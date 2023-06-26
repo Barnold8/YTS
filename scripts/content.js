@@ -109,19 +109,14 @@ chrome.runtime.onMessage.addListener(
                 break
             default:
                 sendResponse({payload: null,message: `Message was ${request.type}`})
-                
                 break;
             
         }
-        sendResponse({payload: processQueue() })
+        
     }
   );
 
 
-window.onbeforeunload = async function (e) {
-    chrome.runtime.sendMessage({
-        payload: "nothing rn"
-    })
-    
-};
+
+
 

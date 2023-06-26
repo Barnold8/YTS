@@ -326,6 +326,19 @@ window.onload = async function() {
 }
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-  chrome.tabs.update({url: "https://google.com"});
-  window.close(); 
+
 });
+
+chrome.tabs.onUpdated.addListener(async function
+  (tabId, changeInfo, tab) {
+    if (changeInfo.url) {
+      chrome.storage.session.get(["queueInfo"]).then((result) => { // reinit the queue 
+        if(result.queueInfo != null && result.queueInfo[0]["intialQueue"] === true){
+            
+            console.log("Changing video")
+            return
+        }
+      });
+    }
+  }
+);
