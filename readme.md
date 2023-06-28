@@ -34,8 +34,8 @@ Right now, all you can do is click "generate queue".
 
 ### Current
 
-    * intercept youtube autoplay video change by redirection - PARTIAL
-    * remove the visible queue on the YT webpage
+    * intercept youtube autoplay video change by redirection
+
     
 ### Yet to start
 
