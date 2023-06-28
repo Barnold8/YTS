@@ -230,8 +230,6 @@ function generateVideo(elem){
             element.func_param = element.id
       });
 
-
-  
   return video
 }
 

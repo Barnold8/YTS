@@ -14,23 +14,11 @@ function grabLink(text){
         var urlRegex = /(https?:\/\/[^\s]+)/g;
         var link = text.match(urlRegex);
         return link
+
 }
 
 function timeVideoProcess(time,index=0,seconds = 0){
   
-    // if(time.length < 1 || time[0] === undefined){
-    //   return seconds
-    // }
-                                                                // maybe revert back to a recursive definition in a different iteration
-    // time.shift()
-    // console.log(`time[0] is ${time[0]}`)
-  
-    // return(timeVideoProcess(
-    //         time,
-    //         index+1,
-    //         seconds + parseInt(time[0],10) * Math.pow(60,index) 
-    //     ))
-
     if(time.length == 3){
 
         return parseInt(time[0],10) * Math.pow(60,2)  + parseInt(time[0],10) * Math.pow(60,1) + parseInt(time[0],10) * Math.pow(60,0)
@@ -116,8 +104,36 @@ chrome.runtime.onMessage.addListener(
     }
   );
 
-console.log(document.getElementsByTagName("ytd-playlist-panel-renderer"))
-console.log(document.getElementsByTagName("ytd-playlist-panel-renderer").item(1))
+
+var observer = new MutationObserver(function(mutationsList, observer) {
+    for (var mutation of mutationsList){
+        console.log('The ' + mutation.attributeName + ' attribute was modified.');
+    }
+
+    if(document.getElementsByTagName("ytd-playlist-panel-renderer")[1]){
+        document.getElementsByTagName("ytd-playlist-panel-renderer")[1].remove()
+    }
+    
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    
+    console.log(document.getElementsByTagName("ytd-playlist-panel-renderer"))
+    
+    console.log("Page loaded")
+    let video;
+    video = document.getElementsByClassName("html5-video-container")
+    video = video[0].getElementsByTagName('video')
+
+    observer.observe(video[0], { attributes: true});
+    
+});
+
+
+
+
+
+
 
 
 
