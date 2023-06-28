@@ -38,11 +38,11 @@ Right now, all you can do is click "generate queue".
     * remove the visible queue on the YT webpage
     
 ### Yet to start
+
     * implement error handling for null queue
     * detect youtube queue update, add to extension queue, resort
     * button to clear queue
-    * delete from the queue
-    
+
 
 
 ## Known bugs
