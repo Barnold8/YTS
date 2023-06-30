@@ -144,8 +144,8 @@ var observer = new MutationObserver(function(mutationsList, observer) {
                 console.log(distance / 60000)
 
                 if (distance < change_by_MAX) {
-                    // clearInterval(timer);
-
+                    clearInterval(timer);
+                    // change video
                 }
             }, 1000);
             return
