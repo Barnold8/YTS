@@ -1,13 +1,6 @@
-
 //TODO: 
     // error handling for no video queues available
 
-function foo(){
-
-    var element = evt.currentTarget
-    console.log(element.outerText)
-
-}
 
 function grabLink(text){
 
@@ -104,49 +97,58 @@ chrome.runtime.onMessage.addListener(
     }
   );
 
-var paused = false // assuming youtube plays the video from the get go
-
 var observer = new MutationObserver(function(mutationsList, observer) {
 
     const change_by_MAX = 100
 
+    // to access any change in elem to know something changed
     for (var mutation of mutationsList){
 
         if (mutation.type === "attributes") {
-            paused = !paused // flip bool
-
-            try{
-                clearInterval(timer);
-            }
-            catch(e){
-
-            }
-                      
+            // Attempt clear of timer incase one already exists, used to update timer. If no timer exists, error persists, try catch as a workaround.
+            try{clearInterval(timer);}
+            catch(e){}
+            
+            // Duration = total video time | Time passed = current watch time to video 
             duration = document.getElementsByClassName("ytp-time-duration")[0].innerText
             time_passed = document.getElementsByClassName("ytp-time-current")[0].innerText
             
+            // time of day to reference for countdown. 
             current_time = new Date().getTime()
+
+            //  Video time is the time left.
             video_time = (timeVideoProcess(duration.split(":")) - timeVideoProcess(time_passed.split(":"))) * 1000 // convert to ms
+            
+            // Time to end is the literal timestamp in which the video is expected to end
             time_to_end = new Date(current_time +  video_time)
             
-            timer = setInterval(function() {
+            // code to make the timer work. Async to ensure communications between background and content for data gathering 
+            timer = setInterval(async function() {
 
-                // Get today's date and time
                 var now = new Date().getTime();
+                // obtain current youtube player state. Done by hooking into the play button on the video player
+                video_state = document.getElementsByClassName("ytp-play-button")[0].getAttribute("data-title-no-tooltip") // Pause means video is playing, play means video is paused
+                
 
-                if(!paused){
+                if(video_state === "Pause"){
                     var distance = time_to_end - now;
                 }else{
                     var distance = Number.MAX_SAFE_INTEGER
                 }
-                
-           
-                console.log(distance / 60000)
+
+                // console.log(distance / 60000)
 
                 if (distance < change_by_MAX) {
                     clearInterval(timer);
+
                     // change video
-                }
+
+                    videos = chrome.runtime.sendMessage({ type: "getVideos" }, function(response) {
+                        console.log(response);
+                    });
+                    console.log(videos)
+
+                   }
             }, 1000);
             return
         }

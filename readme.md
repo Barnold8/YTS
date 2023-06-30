@@ -50,3 +50,7 @@ Right now, all you can do is click "generate queue".
 
     * Videos > 1hr
         * turns video queue payload in undefined. Could be rooted in time sorting code
+    * Timer
+        * countdown timer gets into negatives just before video ends.
+        * countdown timer is MAX INT when tab unfocused (not high priority)
+        * countdown isnt updated when skipping with arrow keys on page (not high priority)
