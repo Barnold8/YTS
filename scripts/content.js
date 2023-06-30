@@ -107,6 +107,9 @@ chrome.runtime.onMessage.addListener(
 var paused = false // assuming youtube plays the video from the get go
 
 var observer = new MutationObserver(function(mutationsList, observer) {
+
+    const change_by_MAX = 100
+
     for (var mutation of mutationsList){
 
         if (mutation.type === "attributes") {
@@ -140,9 +143,9 @@ var observer = new MutationObserver(function(mutationsList, observer) {
            
                 console.log(distance / 60000)
 
-                if (distance < 0) {
+                if (distance < change_by_MAX) {
                     // clearInterval(timer);
-                    
+
                 }
             }, 1000);
             return
@@ -156,9 +159,6 @@ var observer = new MutationObserver(function(mutationsList, observer) {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-       
-    
-    console.log(document.getElementsByClassName("ytp-play-button"))
 
     video = document.getElementsByClassName("ytp-play-button")
 
