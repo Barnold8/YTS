@@ -142,6 +142,7 @@ var observer = new MutationObserver(function(mutationsList, observer) {
 
                 if (distance < 0) {
                     // clearInterval(timer);
+                    
                 }
             }, 1000);
             return
