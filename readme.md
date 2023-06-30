@@ -42,6 +42,7 @@ Right now, all you can do is click "generate queue".
     * implement error handling for null queue
     * detect youtube queue update, add to extension queue, resort
     * button to clear queue
+    * add a button to refresh whole site so it can re-add its old queue - try style.display = none, etc
 
 
 

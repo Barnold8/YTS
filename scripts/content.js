@@ -104,32 +104,66 @@ chrome.runtime.onMessage.addListener(
     }
   );
 
+var paused = false // assuming youtube plays the video from the get go
 
 var observer = new MutationObserver(function(mutationsList, observer) {
     for (var mutation of mutationsList){
-        console.log('The ' + mutation.attributeName + ' attribute was modified.');
+
+        if (mutation.type === "attributes") {
+            paused = !paused // flip bool
+
+            try{
+                clearInterval(timer);
+            }
+            catch(e){
+
+            }
+                      
+            duration = document.getElementsByClassName("ytp-time-duration")[0].innerText
+            time_passed = document.getElementsByClassName("ytp-time-current")[0].innerText
+            
+            current_time = new Date().getTime()
+            video_time = (timeVideoProcess(duration.split(":")) - timeVideoProcess(time_passed.split(":"))) * 1000 // convert to ms
+            time_to_end = new Date(current_time +  video_time)
+            
+            timer = setInterval(function() {
+
+                // Get today's date and time
+                var now = new Date().getTime();
+
+                if(!paused){
+                    var distance = time_to_end - now;
+                }else{
+                    var distance = Number.MAX_SAFE_INTEGER
+                }
+                
+           
+                console.log(distance / 60000)
+
+                if (distance < 0) {
+                    // clearInterval(timer);
+                }
+            }, 1000);
+            return
+        }
     }
 
-    if(document.getElementsByTagName("ytd-playlist-panel-renderer")[1]){
-        document.getElementsByTagName("ytd-playlist-panel-renderer")[1].remove()
-    }
+    // if(document.getElementsByTagName("ytd-playlist-panel-renderer")[1]){
+    //     document.getElementsByTagName("ytd-playlist-panel-renderer")[1].remove()
+    // }
     
 });
 
 document.addEventListener('DOMContentLoaded', function() {
+       
     
-    console.log(document.getElementsByTagName("ytd-playlist-panel-renderer"))
-    
-    console.log("Page loaded")
-    let video;
-    video = document.getElementsByClassName("html5-video-container")
-    video = video[0].getElementsByTagName('video')
+    console.log(document.getElementsByClassName("ytp-play-button"))
+
+    video = document.getElementsByClassName("ytp-play-button")
 
     observer.observe(video[0], { attributes: true});
-    
+
 });
-
-
 
 
 
