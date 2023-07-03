@@ -144,8 +144,8 @@ var observer = new MutationObserver(function(mutationsList, observer) {
                     // change video
 
                     videos = chrome.runtime.sendMessage({ type: "getVideos" }, function(response) {
-
-                        chrome.runtime.sendMessage({ type: "changeVideo", video_URL: response.queueInfo[0]["nextVideo"]["href"] }, function(response) {
+                        
+                        chrome.runtime.sendMessage({ type: "changeVideo", video_URL: response.payload.queueInfo[0]["nextVideo"]["href"] }, function(response) {
                             
                         });
                     });

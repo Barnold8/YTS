@@ -306,9 +306,6 @@ window.onload = async function() {
             for(const elem of result.queueInfo[0]["videoQueue"]){
     
               const video = generateVideo(elem)
-              
-              // queueContainer.appendChild(video)
-        
             }
             return
         }
@@ -327,16 +324,16 @@ window.onload = async function() {
 }
 
 
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+// chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
-    switch(request.type){
+//     console.log(`Popup is seeing ${request.type}`)
 
-      case "changeVideo":
-        
-        break;
-      default:
+//     switch(request.type){
 
-        break;
-    }
-});
+
+//       default:
+
+//         break;
+//     }
+// });
 

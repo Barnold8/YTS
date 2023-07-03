@@ -14,6 +14,10 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             });
             
             return true;
+        case "changeVideo":
+            chrome.tabs.update({url: request.video_URL});
+            window.close(); 
+            break;
         default:
             sendResponse({ payload: null, message: "Advanced to default case statement\nbackground.js" });
             break;
