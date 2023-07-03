@@ -327,3 +327,16 @@ window.onload = async function() {
 }
 
 
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+
+    switch(request.type){
+
+      case "changeVideo":
+        
+        break;
+      default:
+
+        break;
+    }
+});
+

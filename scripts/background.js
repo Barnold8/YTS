@@ -1,17 +1,10 @@
 
-chrome.runtime.onMessage.addListener(async function (request, sender, sendResponse) {
-    console.log(request);
-    console.log(request.type);
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
     switch (request.type) {
         case "getVideos":
             chrome.storage.session.get(["queueInfo"]).then((result) => {  
                 if (result.queueInfo != null && result.queueInfo[0]["intialQueue"] === true) {
-
-                    console.log(result);
-                    console.log(result.queueInfo)
-                    console.log(result.queueInfo[0]);
-
                     sendResponse({ payload: result, message: null });
                 } else {
                     sendResponse({ payload: null, message: "Queue info not found" });
@@ -25,4 +18,6 @@ chrome.runtime.onMessage.addListener(async function (request, sender, sendRespon
             sendResponse({ payload: null, message: "Advanced to default case statement\nbackground.js" });
             break;
     }
+
+    return true
 });

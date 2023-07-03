@@ -99,7 +99,7 @@ chrome.runtime.onMessage.addListener(
 
 var observer = new MutationObserver(function(mutationsList, observer) {
 
-    const change_by_MAX = 100
+    const change_by_MAX = 1
 
     // to access any change in elem to know something changed
     for (var mutation of mutationsList){
@@ -136,17 +136,19 @@ var observer = new MutationObserver(function(mutationsList, observer) {
                     var distance = Number.MAX_SAFE_INTEGER
                 }
 
-                // console.log(distance / 60000)
+                console.log(distance / 60000)
 
-                if (distance < change_by_MAX) {
+                if (distance / 60000 < change_by_MAX) {
                     clearInterval(timer);
 
                     // change video
 
                     videos = chrome.runtime.sendMessage({ type: "getVideos" }, function(response) {
-                        console.log(response);
+
+                        chrome.runtime.sendMessage({ type: "changeVideo", video_URL: response.queueInfo[0]["nextVideo"]["href"] }, function(response) {
+                            
+                        });
                     });
-                    console.log(videos)
 
                    }
             }, 1000);
