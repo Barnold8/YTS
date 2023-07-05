@@ -10,7 +10,7 @@ function grabLink(text){
 
 }
 
-function timeVideoProcess(time,index=0,seconds = 0){
+function timeVideoProcess(time){
   
     if(time.length == 3){
 
@@ -61,8 +61,8 @@ function processQueue(){
             timeLeft = t1["time"].split(":")
             timeRight = t2["time"].split(":")
 
-            timeLeft = timeVideoProcess(timeLeft,0,0)
-            timeRight = timeVideoProcess(timeRight,0,0)
+            timeLeft = timeVideoProcess(timeLeft)
+            timeRight = timeVideoProcess(timeRight)
             
             return timeLeft - timeRight
     
@@ -97,14 +97,17 @@ chrome.runtime.onMessage.addListener(
     }
   );
 
+// https://stackoverflow.com/questions/29971898/how-to-create-an-accurate-timer-in-javascript - Make timer accurate!!!!!!
+
 var observer = new MutationObserver(function(mutationsList, observer) {
 
-    const change_by_MAX = 1
+    const change_by_MAX = 0.1
 
     // to access any change in elem to know something changed
     for (var mutation of mutationsList){
 
-        if (mutation.type === "attributes") {
+        if (mutation.type === "attributes") { // use other mutation types for when the user presses arrow keys to manipulate video time
+
             // Attempt clear of timer incase one already exists, used to update timer. If no timer exists, error persists, try catch as a workaround.
             try{clearInterval(timer);}
             catch(e){}
@@ -112,17 +115,18 @@ var observer = new MutationObserver(function(mutationsList, observer) {
             // Duration = total video time | Time passed = current watch time to video 
             duration = document.getElementsByClassName("ytp-time-duration")[0].innerText
             time_passed = document.getElementsByClassName("ytp-time-current")[0].innerText
-            
-            // time of day to reference for countdown. 
-            current_time = new Date().getTime()
 
-            //  Video time is the time left.
-            video_time = (timeVideoProcess(duration.split(":")) - timeVideoProcess(time_passed.split(":"))) * 1000 // convert to ms
+            now = new Date()
             
-            // Time to end is the literal timestamp in which the video is expected to end
-            time_to_end = new Date(current_time +  video_time)
-            
-            // code to make the timer work. Async to ensure communications between background and content for data gathering 
+            videoEnd =  new Date(
+                now.getFullYear(),
+                now.getMonth(),
+                now.getDate(),
+                now.getHours(),
+                now.getMinutes() + parseInt(duration.split(":")[0] - parseInt(time_passed.split(":")[0])),
+                now.getSeconds() + parseInt(duration.split(":")[1] - parseInt(time_passed.split(":")[1]))
+            )
+
             timer = setInterval(async function() {
 
                 var now = new Date().getTime();
@@ -131,12 +135,13 @@ var observer = new MutationObserver(function(mutationsList, observer) {
                 
 
                 if(video_state === "Pause"){
-                    var distance = time_to_end - now;
+                    // var distance = time_to_end - now;
+                    var distance = videoEnd.getTime() - now;
                 }else{
                     var distance = Number.MAX_SAFE_INTEGER
                 }
 
-                console.log(distance / 60000)
+                // console.log(distance / 60000)
 
                 if (distance / 60000 < change_by_MAX) {
                     clearInterval(timer);
