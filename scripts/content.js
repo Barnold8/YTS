@@ -141,18 +141,15 @@ var observer = new MutationObserver(function(mutationsList, observer) {
                     var distance = Number.MAX_SAFE_INTEGER
                 }
 
-                // console.log(distance / 60000)
+                console.log(distance / 60000)
 
                 if (distance / 60000 < change_by_MAX) {
                     clearInterval(timer);
 
                     // change video
+                    chrome.runtime.sendMessage({ type: "changeVideo" }, function(response) {
 
-                    videos = chrome.runtime.sendMessage({ type: "getVideos" }, function(response) {
-                        
-                        chrome.runtime.sendMessage({ type: "changeVideo", video_URL: response.payload.queueInfo[0]["nextVideo"]["href"] }, function(response) {
-                            
-                        });
+
                     });
 
                    }

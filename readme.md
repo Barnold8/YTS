@@ -51,5 +51,5 @@ Right now, all you can do is click "generate queue".
     * Videos > 1hr
         * turns video queue payload in undefined. Could be rooted in time sorting code
     * Timer
-        * Possibility for "closing endpoint" to not exist when the video ends, stops whole code from working...
+        * Unchecked runtime.lastError: The message port closed before a response was received. (when trying to change videos)
         * countdown isnt updated when skipping with arrow keys on page (not high priority)
