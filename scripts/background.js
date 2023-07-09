@@ -35,12 +35,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
                             console.log(queueInfo)
 
-                            // queueInfo:[{ 
-                            //     intialQueue: true,
-                            //     videoQueue: response.payload,
-                            //     currentVideo: response.payload[0],
-                            //     nextVideo:  response.payload[1]
-                            //   }]
                             chrome.storage.session.set({ 
                                 queueInfo
                             }).then(() => {

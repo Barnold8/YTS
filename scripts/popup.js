@@ -1,4 +1,4 @@
-function resolveHost(){
+function resolveHost() {
 
   var imageContainer = document.createElement("div")
   var questionableIMG = document.createElement("img")
@@ -7,8 +7,8 @@ function resolveHost(){
   var verticalButtonContainer = document.createElement("div")
   var gotoYoutube = document.createElement("button")
 
-  imageContainer.classList.add("imageContainer") 
-  questionableIMG.classList.add("questionableIMG") 
+  imageContainer.classList.add("imageContainer")
+  questionableIMG.classList.add("questionableIMG")
   information.classList.add("wrongSiteInfo")
   buttonContainer.classList.add("redirectButtonContainer")
   verticalButtonContainer.classList.add("verticalButtonContainer")
@@ -29,7 +29,27 @@ function resolveHost(){
 
 }
 
-function exchangeElements(element1, element2){ // with thanks to https://stackoverflow.com/questions/9732624/how-to-swap-dom-child-nodes-in-javascript
+function grabVideoData(elem) {
+
+  if (elem.tagName.toLowerCase() != "svg") {
+
+    elem = elem.closest(".queueContainer")
+
+    return {
+      href: elem.querySelectorAll(".title")[0].getElementsByTagName("a")[0].href,
+      img: elem.querySelectorAll(".thumbnail")[0].src,
+      queueLengh: -1, // this is useless, i need to remove this 
+      time: elem.querySelectorAll(".timeContainer")[0].outerText,
+      title: elem.querySelectorAll(".title")[0].outerText,
+      videoID: parseInt(elem.getAttribute("videoid"))
+    }
+
+  }
+
+  return null
+}
+
+function exchangeElements(element1, element2) { // with thanks to https://stackoverflow.com/questions/9732624/how-to-swap-dom-child-nodes-in-javascript
   // why make something so simple so weird to achieve JS?
   var clonedElement1 = element1.cloneNode(true);
   var clonedElement2 = element2.cloneNode(true);
@@ -42,121 +62,198 @@ function exchangeElements(element1, element2){ // with thanks to https://stackov
 }
 
 
-function videoExchange(dir,videoID){
+function videoExchange(dir, videoID) {
 
-    otherVideo = document.querySelectorAll(`[videoid="${parseInt(videoID)+dir}"]`)
-    currentVideo = document.querySelectorAll(`[videoid="${videoID}"]`)
+  otherVideo = document.querySelectorAll(`[videoid="${parseInt(videoID) + dir}"]`)
+  currentVideo = document.querySelectorAll(`[videoid="${videoID}"]`)
 
-    let bufferNumber = otherVideo[0].getAttribute("videoid")
+  let bufferNumber = otherVideo[0].getAttribute("videoid")
 
-    otherVideo[0].setAttribute("videoid",currentVideo[0].getAttribute("videoid"))
-    currentVideo[0].setAttribute("videoid",bufferNumber[0])
-    
-    exchangeElements(otherVideo[0],currentVideo[0])
+  otherVideo[0].setAttribute("videoid", currentVideo[0].getAttribute("videoid"))
+  currentVideo[0].setAttribute("videoid", bufferNumber[0])
+
+  exchangeElements(otherVideo[0], currentVideo[0])
 
 }
 
-function swapVideo(evt){
+function swapVideo(evt) {
 
   let idSTR = "videoid"
   var element = evt.currentTarget
   var direction = element.func_param
   var videoID = element.closest('li').getAttribute(idSTR)
-  
+
   const HOME = "https://www.youtube.com"
 
   chrome.storage.session.get(["queueInfo"]).then((result) => { // could be good idea to error check here 
 
     let queueLength = result.queueInfo[0]["videoQueue"][0].queueLength // bit long but ok for now
 
-    switch(direction){
+    switch (direction) {
       case "up":
-          if(videoID > 0){
-            
-              videoExchange(-1,videoID)
+        if (videoID > 0) {
 
-              Array.from(
-                document.getElementsByClassName("videoFunc"))
-                  .forEach(function(element) {
-                      element.addEventListener('click', swapVideo);
-                      element.func_param = element.id
-                });
-                chrome.storage.session.get(["queueInfo"]).then((result) => { // reinit the queue 
-              
-                  videoOne = result.queueInfo[0]["videoQueue"][parseInt(videoID)]
-                  videoTwo = result.queueInfo[0]["videoQueue"][parseInt(videoID)-1]
-                
-                  console.log(result,videoOne,videoTwo)
+          videoExchange(-1, videoID)
 
-                  videoOne["videoID"] = parseInt(videoOne["videoID"]) - 1
-                  videoTwo["videoID"] = parseInt(videoTwo["videoID"]) + 1
-                  
-                  result.queueInfo[0]["videoQueue"][parseInt(videoID)] = videoTwo
-                  result.queueInfo[0]["videoQueue"][parseInt(videoID)-1] = videoOne
-
-                  queueInfo = result.queueInfo
-
-                  for(i = 0; i < queueInfo[0]["videoQueue"].length; i++){ // O(n) solution. If performance issues, look into some tree data structure for efficiency
-                    if(queueInfo[0].currentVideo.href == queueInfo[0]["videoQueue"][i].href){
-                      queueInfo[0].nextVideo = ( queueInfo[0]["videoQueue"][i+1] ? queueInfo[0]["videoQueue"][i+1] : HOME)
-                    }
-                  }
-
-                  chrome.storage.session.set({
-                    queueInfo
-                                
-                  }).then(() => {
-                                  
-                  });
+          Array.from(
+            document.getElementsByClassName("videoFunc"))
+            .forEach(function (element) {
+              element.addEventListener('click', swapVideo);
+              element.func_param = element.id
             });
 
-          }
-        break; 
+          console.log("A")
 
-      case "down":
-          if(videoID < queueLength - 1){ // -1 to account for array indexing logic
 
-            videoExchange(1,videoID)
+          console.log("B")
+          chrome.storage.session.get(["queueInfo"]).then((result) => { // reinit the queue 
 
-            Array.from(
-              document.getElementsByClassName("videoFunc"))
-                .forEach(function(element) {
-                    element.addEventListener('click', swapVideo);
-                    element.func_param = element.id
-              });
-              
-              chrome.storage.session.get(["queueInfo"]).then((result) => { // reinit the queue 
-              
-                videoOne = result.queueInfo[0]["videoQueue"][parseInt(videoID)]
-                videoTwo = result.queueInfo[0]["videoQueue"][parseInt(videoID)+1]
+            videoOne = result.queueInfo[0]["videoQueue"][parseInt(videoID)]
+            videoTwo = result.queueInfo[0]["videoQueue"][parseInt(videoID) - 1]
 
-                console.log(result,videoOne,videoTwo)
+            console.log(result, videoOne, videoTwo)
 
-                videoOne["videoID"] = parseInt(videoOne["videoID"]) + 1
-                videoTwo["videoID"] = parseInt(videoTwo["videoID"]) - 1
+            videoOne["videoID"] = parseInt(videoOne["videoID"]) - 1
+            videoTwo["videoID"] = parseInt(videoTwo["videoID"]) + 1
+
+
+
+            result.queueInfo[0]["videoQueue"][parseInt(videoID)] = videoTwo
+            result.queueInfo[0]["videoQueue"][parseInt(videoID) - 1] = videoOne
+
+            queueInfo = result.queueInfo
+
+            for (i = 0; i < queueInfo[0]["videoQueue"].length; i++) { // O(n) solution. If performance issues, look into some tree data structure for efficiency
+              if (queueInfo[0].currentVideo.href == queueInfo[0]["videoQueue"][i].href) {
+                queueInfo[0].nextVideo = (queueInfo[0]["videoQueue"][i + 1] ? queueInfo[0]["videoQueue"][i + 1] : HOME)
+              }
+            }
+
+            chrome.storage.session.set({
+              queueInfo
+
+            }).then(() => {
+
+              Array.from(
+                document.getElementsByClassName("queueContainer"))
+                .forEach(function (element) {
+
+                  element.onclick = function (event) {
+
+                    chrome.storage.session.get(["queueInfo"]).then((result) => { // reinit the queue 
+                      if (result.queueInfo != null && result.queueInfo[0]["intialQueue"] === true) {
                 
-                result.queueInfo[0]["videoQueue"][parseInt(videoID)] = videoTwo
-                result.queueInfo[0]["videoQueue"][parseInt(videoID)+1] = videoOne
+                        queueInfo = result.queueInfo
+                        currentVideo = grabVideoData(event.target)
+                        queueInfo[0].currentVideo = currentVideo
                 
-                queueInfo = result.queueInfo
+                        for (i = 0; i < queueInfo[0]["videoQueue"].length; i++) { // O(n) solution. If performance issues, look into some tree data structure for efficiency
+                          if (currentVideo.href == queueInfo[0]["videoQueue"][i].href) {
+                            queueInfo[0].nextVideo = (queueInfo[0]["videoQueue"][i + 1] ? queueInfo[0]["videoQueue"][i + 1] : HOME)
+                          }
+                        }
                 
-                for(i = 0; i < queueInfo[0]["videoQueue"].length; i++){ // O(n) solution. If performance issues, look into some tree data structure for efficiency
-                  if(queueInfo[0].currentVideo.href == queueInfo[0]["videoQueue"][i].href){
-                    queueInfo[0].nextVideo = ( queueInfo[0]["videoQueue"][i+1] ? queueInfo[0]["videoQueue"][i+1] : HOME)
+                          chrome.storage.session.set({
+                            queueInfo
+                          }).then(() => {
+                            if (currentVideo != null) {
+                              chrome.tabs.update({ url: currentVideo.href });
+                            }
+                
+                
+                          });
+                
+                
+                        return
+                      }
+                
+                    });
                   }
-                }
-
-                chrome.storage.session.set({
-                  queueInfo
-                }).then(() => {
-                                console.log("Initial queue has been set");
-                });
-                
-
+                })
+            });
           });
 
-          }
-        break; 
+        }
+        break;
+
+      case "down":
+        if (videoID < queueLength - 1) { // -1 to account for array indexing logic
+
+          videoExchange(1, videoID)
+
+          Array.from(
+            document.getElementsByClassName("videoFunc"))
+            .forEach(function (element) {
+              element.addEventListener('click', swapVideo);
+              element.func_param = element.id
+            });
+
+          chrome.storage.session.get(["queueInfo"]).then((result) => { // reinit the queue 
+
+            videoOne = result.queueInfo[0]["videoQueue"][parseInt(videoID)]
+            videoTwo = result.queueInfo[0]["videoQueue"][parseInt(videoID) + 1]
+
+            console.log(result, videoOne, videoTwo)
+
+            videoOne["videoID"] = parseInt(videoOne["videoID"]) + 1
+            videoTwo["videoID"] = parseInt(videoTwo["videoID"]) - 1
+
+            result.queueInfo[0]["videoQueue"][parseInt(videoID)] = videoTwo
+            result.queueInfo[0]["videoQueue"][parseInt(videoID) + 1] = videoOne
+
+            queueInfo = result.queueInfo
+
+            for (i = 0; i < queueInfo[0]["videoQueue"].length; i++) { // O(n) solution. If performance issues, look into some tree data structure for efficiency
+              if (queueInfo[0].currentVideo.href == queueInfo[0]["videoQueue"][i].href) {
+                queueInfo[0].nextVideo = (queueInfo[0]["videoQueue"][i + 1] ? queueInfo[0]["videoQueue"][i + 1] : HOME)
+              }
+            }
+
+            chrome.storage.session.set({
+              queueInfo
+            }).then(() => {
+
+              Array.from(
+                document.getElementsByClassName("queueContainer"))
+                .forEach(function (element) {
+
+                  element.onclick = function (event) {
+
+                    chrome.storage.session.get(["queueInfo"]).then((result) => { // reinit the queue 
+                      if (result.queueInfo != null && result.queueInfo[0]["intialQueue"] === true) {
+                
+                        queueInfo = result.queueInfo
+                        currentVideo = grabVideoData(event.target)
+                        queueInfo[0].currentVideo = currentVideo
+                
+                        for (i = 0; i < queueInfo[0]["videoQueue"].length; i++) { // O(n) solution. If performance issues, look into some tree data structure for efficiency
+                          if (currentVideo.href == queueInfo[0]["videoQueue"][i].href) {
+                            queueInfo[0].nextVideo = (queueInfo[0]["videoQueue"][i + 1] ? queueInfo[0]["videoQueue"][i + 1] : HOME)
+                          }
+                        }
+                
+                          chrome.storage.session.set({
+                            queueInfo
+                          }).then(() => {
+                            if (currentVideo != null) {
+                              chrome.tabs.update({ url: currentVideo.href });
+                            }
+                
+                
+                          });
+                
+                
+                        return
+                      }
+                
+                    });
+                  }
+                })
+            });
+          });
+
+        }
+        break;
 
       default:
         break;
@@ -165,7 +262,9 @@ function swapVideo(evt){
 
 }
 
-function generateVideo(elem){ 
+function generateVideo(elem) {
+
+  const HOME = "https://www.youtube.com"
 
   const arrowWidth = 15
   const arrowHeight = 15
@@ -180,10 +279,10 @@ function generateVideo(elem){
   const image = document.createElement("img")
   const titleDiv = document.createElement("div")
   const title = document.createElement("p")
-  const link  = document.createElement("a") // more used to actually store the link in an elem rather than for user side use
+  const link = document.createElement("a") // more used to actually store the link in an elem rather than for user side use
   const buttonContainer = document.createElement("div")
-  const down  = document.createElement("div")
-  const up  = document.createElement("div")
+  const down = document.createElement("div")
+  const up = document.createElement("div")
 
   link.href = elem["href"]
   title.innerText = elem["title"]
@@ -191,14 +290,14 @@ function generateVideo(elem){
   image.src = elem["img"]
   down.innerHTML = downArrow
   up.innerHTML = upArrow
-  
+
   up.setAttribute('id', 'up')
   down.setAttribute('id', 'down')
-  video.setAttribute('videoID',elem["videoID"])
+  video.setAttribute('videoID', elem["videoID"])
 
   title.appendChild(link)
 
-  video.classList.add("queueContainer") 
+  video.classList.add("queueContainer")
   title.classList.add("title")
   image.classList.add("thumbnail")
   imageDiv.classList.add("thumbnailContainer")
@@ -223,27 +322,59 @@ function generateVideo(elem){
   document.getElementById("mainContent").appendChild(video);
 
   Array.from(
-      document.getElementsByClassName("videoFunc"))
-        .forEach(function(element) {
-            element.addEventListener('click', swapVideo);
-            element.func_param = element.id
-      });
+    document.getElementsByClassName("videoFunc"))
+    .forEach(function (element) {
+      element.addEventListener('click', swapVideo);
+      element.func_param = element.id
+    });
+
+  video.onclick = function (event) {
+
+    chrome.storage.session.get(["queueInfo"]).then((result) => { // reinit the queue 
+      if (result.queueInfo != null && result.queueInfo[0]["intialQueue"] === true) {
+
+        queueInfo = result.queueInfo
+        currentVideo = grabVideoData(event.target)
+        queueInfo[0].currentVideo = currentVideo
+
+        for (i = 0; i < queueInfo[0]["videoQueue"].length; i++) { // O(n) solution. If performance issues, look into some tree data structure for efficiency
+          if (currentVideo.href == queueInfo[0]["videoQueue"][i].href) {
+            queueInfo[0].nextVideo = (queueInfo[0]["videoQueue"][i + 1] ? queueInfo[0]["videoQueue"][i + 1] : HOME)
+          }
+        }
+
+          chrome.storage.session.set({
+            queueInfo
+          }).then(() => {
+            if (currentVideo != null) {
+              chrome.tabs.update({ url: currentVideo.href });
+            }
+
+
+          });
+
+
+        return
+      }
+
+    });
+  }
 
   return video
 }
 
-function redirectToYoutube(){
-  chrome.tabs.update({url: "https://youtube.com"});
+function redirectToYoutube() {
+  chrome.tabs.update({ url: "https://youtube.com" });
 }
 
-function generateQueue(){
-  
+function generateQueue() {
+
   (async () => {
 
-    const tabs = await chrome.tabs.query({currentWindow: true, active: true});
-    const response = await chrome.tabs.sendMessage(tabs[0].id, {type: "getInitialQueue"});
+    const tabs = await chrome.tabs.query({ currentWindow: true, active: true });
+    const response = await chrome.tabs.sendMessage(tabs[0].id, { type: "getInitialQueue" });
 
-    if(response.payload === null){
+    if (response.payload === null) {
       const node = document.createElement("div");
       node.innerText = "No queue was found, try refreshing the page."
       document.getElementById("mainContent").appendChild(node);
@@ -254,39 +385,37 @@ function generateQueue(){
     queueContainer.setAttribute('id', 'queueContainer')
     document.getElementById("mainContent").appendChild(queueContainer)
 
-    for(const elem of response.payload ){
-    
+    for (const elem of response.payload) {
+
       const video = generateVideo(elem)
-      
+
       queueContainer.appendChild(video)
 
     }
 
     document.getElementById("generate").remove()
     chrome.storage.session.set({
-        queueInfo:[{ 
-                    intialQueue: true,
-                    videoQueue: response.payload,
-                    currentVideo: response.payload[0],
-                    nextVideo:  response.payload[1]
-                  }]
+      queueInfo: [{
+        intialQueue: true,
+        videoQueue: response.payload,
+        currentVideo: response.payload[0],
+        nextVideo: response.payload[1]
+      }]
     }).then(() => {
-      
-      chrome.tabs.update({url: response.payload[0].href});
-     
+
+      chrome.tabs.update({ url: response.payload[0].href });
+
     });
-    
-   
 
   })();
 
 }
 
-window.onload = async function() { 
-  const tabs = await chrome.tabs.query({currentWindow: true, active: true});
+window.onload = async function () {
+  const tabs = await chrome.tabs.query({ currentWindow: true, active: true });
   const URL = tabs[0].url
 
-  if(!(URL.includes("youtube"))){ // TODO:  Fix the weird CSS for the redirect robot 
+  if (!(URL.includes("youtube"))) { // TODO:  Fix the weird CSS for the redirect robot 
 
     document.getElementById("mainContent").remove()
 
@@ -298,23 +427,23 @@ window.onload = async function() {
   }
 
   chrome.storage.session.get(["queueInfo"]).then((result) => { // reinit the queue 
-        if(result.queueInfo != null && result.queueInfo[0]["intialQueue"] === true){
-            
-            for(const elem of result.queueInfo[0]["videoQueue"]){
-    
-              const video = generateVideo(elem)
-            }
-            return
-        }
+    if (result.queueInfo != null && result.queueInfo[0]["intialQueue"] === true) {
 
-        var genQueue = document.createElement("button")
-        genQueue.classList.add("generateQueueButton")
-        genQueue.setAttribute('id', 'generate')
-        genQueue.innerText = "Generate"
+      for (const elem of result.queueInfo[0]["videoQueue"]) {
 
-        document.body.appendChild(genQueue)
+        const video = generateVideo(elem)
+      }
+      return
+    }
 
-        document.getElementById("generate").addEventListener("click", generateQueue);
+    var genQueue = document.createElement("button")
+    genQueue.classList.add("generateQueueButton")
+    genQueue.setAttribute('id', 'generate')
+    genQueue.innerText = "Generate"
+
+    document.body.appendChild(genQueue)
+
+    document.getElementById("generate").addEventListener("click", generateQueue);
 
   });
 
