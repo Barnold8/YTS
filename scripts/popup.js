@@ -63,6 +63,8 @@ function swapVideo(evt){
   var direction = element.func_param
   var videoID = element.closest('li').getAttribute(idSTR)
   
+  const HOME = "https://www.youtube.com"
+
   chrome.storage.session.get(["queueInfo"]).then((result) => { // could be good idea to error check here 
 
     let queueLength = result.queueInfo[0]["videoQueue"][0].queueLength // bit long but ok for now
@@ -94,29 +96,17 @@ function swapVideo(evt){
 
                   queueInfo = result.queueInfo
 
-                  for(i = 0; i < queueInfo[0]["videoQueue"].length; i++){
+                  for(i = 0; i < queueInfo[0]["videoQueue"].length; i++){ // O(n) solution. If performance issues, look into some tree data structure for efficiency
                     if(queueInfo[0].currentVideo.href == queueInfo[0]["videoQueue"][i].href){
-                      queueInfo[0].nextVideo = queueInfo[0]["videoQueue"][i+1]
+                      queueInfo[0].nextVideo = ( queueInfo[0]["videoQueue"][i+1] ? queueInfo[0]["videoQueue"][i+1] : HOME)
                     }
                   }
 
-                  // queueInfo:[{ 
-                  //   intialQueue: true,
-                  //   videoQueue: response.payload,
-                  //   currentVideo: response.payload[0],
-                  //   nextVideo:  response.payload[1]
-                  // }]
-                  
                   chrome.storage.session.set({
                     queueInfo
-                      // queueInfo:[{    
-                      //                 intialQueue: result.queueInfo[0]["intialQueue"],
-                      //                 videoQueue: result.queueInfo[0]["videoQueue"]
-                      //           }]
-                      
                                 
                   }).then(() => {
-                                  console.log("Initial queue has been set");
+                                  
                   });
             });
 
@@ -150,21 +140,14 @@ function swapVideo(evt){
                 
                 queueInfo = result.queueInfo
                 
-                for(i = 0; i < queueInfo[0]["videoQueue"].length; i++){
+                for(i = 0; i < queueInfo[0]["videoQueue"].length; i++){ // O(n) solution. If performance issues, look into some tree data structure for efficiency
                   if(queueInfo[0].currentVideo.href == queueInfo[0]["videoQueue"][i].href){
-                    queueInfo[0].nextVideo = queueInfo[0]["videoQueue"][i+1]
+                    queueInfo[0].nextVideo = ( queueInfo[0]["videoQueue"][i+1] ? queueInfo[0]["videoQueue"][i+1] : HOME)
                   }
                 }
 
                 chrome.storage.session.set({
                   queueInfo
-                    // queueInfo:[{    
-                    //                 intialQueue: result.queueInfo[0]["intialQueue"],
-                    //                 videoQueue: result.queueInfo[0]["videoQueue"],
-                    //                 currentVideo: [],
-                    //                 nextVideo: []
-                    //           }]
-                  
                 }).then(() => {
                                 console.log("Initial queue has been set");
                 });
@@ -178,22 +161,8 @@ function swapVideo(evt){
       default:
         break;
     }
-
-    // console.log(queueLength)
-    // console.log(result.queueInfo[0]["videoQueue"][0])
-
-
-
   });
 
-//   chrome.storage.session.set({
-//     queueInfo:[{ 
-//                 intialQueue: true,
-//                 videoQueue: response.payload 
-//               }]
-// }).then(() => {
-//                 console.log("Initial queue has been set");
-// });
 }
 
 function generateVideo(elem){ 
@@ -265,7 +234,6 @@ function generateVideo(elem){
 
 function redirectToYoutube(){
   chrome.tabs.update({url: "https://youtube.com"});
-  window.close(); 
 }
 
 function generateQueue(){
@@ -303,8 +271,9 @@ function generateQueue(){
                     nextVideo:  response.payload[1]
                   }]
     }).then(() => {
-          chrome.tabs.update({url: response.payload[0].href});
-          window.close(); 
+      
+      chrome.tabs.update({url: response.payload[0].href});
+     
     });
     
    

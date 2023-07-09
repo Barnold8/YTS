@@ -1,5 +1,6 @@
-
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+
+    const HOME = "https://www.youtube.com"
 
     switch (request.type) {
 
@@ -30,7 +31,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                             nextVideo = result.queueInfo[0].nextVideo
 
                             queueInfo[0].currentVideo = result.queueInfo[0].nextVideo
-                            queueInfo[0].nextVideo = ( result.queueInfo[0].videoQueue[i+2] ? result.queueInfo[0].videoQueue[i+2] : null)
+                            queueInfo[0].nextVideo = ( result.queueInfo[0].videoQueue[i+2] ? result.queueInfo[0].videoQueue[i+2] : HOME)
 
                             console.log(queueInfo)
 
@@ -43,16 +44,15 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                             chrome.storage.session.set({ 
                                 queueInfo
                             }).then(() => {
+                               
                                 chrome.tabs.update({url: nextVideo.href})
+                               
+                                
                             });
                             return true
                         }
                     }catch(error){
-                        // console.log("Result is ")
-                        // console.log(result)
-                        // console.log(result.queueInfo[0].videoQueue[i])
-                        // console.log( result.queueInfo[0])
-                        // console.log( result.queueInfo[0].currentVideo)
+
                     }
 
                     }

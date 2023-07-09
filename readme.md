@@ -48,8 +48,8 @@ Right now, all you can do is click "generate queue".
 
 ## Known bugs
 
-    * Videos > 1hr
-        * turns video queue payload in undefined. Could be rooted in time sorting code
     * Timer
         * Unchecked runtime.lastError: The message port closed before a response was received. (when trying to change videos)
         * countdown isnt updated when skipping with arrow keys on page (not high priority)
+    * Queue
+        * After last video is done, the next video in the queue on the youtube page is swapped to
