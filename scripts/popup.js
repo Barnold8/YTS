@@ -91,12 +91,30 @@ function swapVideo(evt){
                   
                   result.queueInfo[0]["videoQueue"][parseInt(videoID)] = videoTwo
                   result.queueInfo[0]["videoQueue"][parseInt(videoID)-1] = videoOne
+
+                  queueInfo = result.queueInfo
+
+                  for(i = 0; i < queueInfo[0]["videoQueue"].length; i++){
+                    if(queueInfo[0].currentVideo.href == queueInfo[0]["videoQueue"][i].href){
+                      queueInfo[0].nextVideo = queueInfo[0]["videoQueue"][i+1]
+                    }
+                  }
+
+                  // queueInfo:[{ 
+                  //   intialQueue: true,
+                  //   videoQueue: response.payload,
+                  //   currentVideo: response.payload[0],
+                  //   nextVideo:  response.payload[1]
+                  // }]
                   
                   chrome.storage.session.set({
-                      queueInfo:[{    
-                                      intialQueue: result.queueInfo[0]["intialQueue"],
-                                      videoQueue: result.queueInfo[0]["videoQueue"]
-                                }]
+                    queueInfo
+                      // queueInfo:[{    
+                      //                 intialQueue: result.queueInfo[0]["intialQueue"],
+                      //                 videoQueue: result.queueInfo[0]["videoQueue"]
+                      //           }]
+                      
+                                
                   }).then(() => {
                                   console.log("Initial queue has been set");
                   });
@@ -121,20 +139,32 @@ function swapVideo(evt){
               
                 videoOne = result.queueInfo[0]["videoQueue"][parseInt(videoID)]
                 videoTwo = result.queueInfo[0]["videoQueue"][parseInt(videoID)+1]
-              
+
+                console.log(result,videoOne,videoTwo)
+
                 videoOne["videoID"] = parseInt(videoOne["videoID"]) + 1
                 videoTwo["videoID"] = parseInt(videoTwo["videoID"]) - 1
                 
                 result.queueInfo[0]["videoQueue"][parseInt(videoID)] = videoTwo
                 result.queueInfo[0]["videoQueue"][parseInt(videoID)+1] = videoOne
                 
-                console.log(result.queueInfo[0]["videoQueue"])
+                queueInfo = result.queueInfo
+                
+                for(i = 0; i < queueInfo[0]["videoQueue"].length; i++){
+                  if(queueInfo[0].currentVideo.href == queueInfo[0]["videoQueue"][i].href){
+                    queueInfo[0].nextVideo = queueInfo[0]["videoQueue"][i+1]
+                  }
+                }
 
                 chrome.storage.session.set({
-                    queueInfo:[{    
-                                    intialQueue: result.queueInfo[0]["intialQueue"],
-                                    videoQueue: result.queueInfo[0]["videoQueue"]
-                              }]
+                  queueInfo
+                    // queueInfo:[{    
+                    //                 intialQueue: result.queueInfo[0]["intialQueue"],
+                    //                 videoQueue: result.queueInfo[0]["videoQueue"],
+                    //                 currentVideo: [],
+                    //                 nextVideo: []
+                    //           }]
+                  
                 }).then(() => {
                                 console.log("Initial queue has been set");
                 });
@@ -320,5 +350,4 @@ window.onload = async function() {
   });
 
 }
-
 

@@ -31,7 +31,15 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
                             queueInfo[0].currentVideo = result.queueInfo[0].nextVideo
                             queueInfo[0].nextVideo = ( result.queueInfo[0].videoQueue[i+2] ? result.queueInfo[0].videoQueue[i+2] : null)
-                            
+
+                            console.log(queueInfo)
+
+                            // queueInfo:[{ 
+                            //     intialQueue: true,
+                            //     videoQueue: response.payload,
+                            //     currentVideo: response.payload[0],
+                            //     nextVideo:  response.payload[1]
+                            //   }]
                             chrome.storage.session.set({ 
                                 queueInfo
                             }).then(() => {
@@ -40,10 +48,11 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                             return true
                         }
                     }catch(error){
-                        console.log("Result is ")
-                        console.log(result)
-                        console.log(result.queueInfo[0].videoQueue[i])
-                        console.log( result.queueInfo[0].currentVideo)
+                        // console.log("Result is ")
+                        // console.log(result)
+                        // console.log(result.queueInfo[0].videoQueue[i])
+                        // console.log( result.queueInfo[0])
+                        // console.log( result.queueInfo[0].currentVideo)
                     }
 
                     }
