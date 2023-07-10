@@ -43,11 +43,19 @@ function clearQueueSession(){
   }).then(() => {
 
       // remove the queue on popup
+      videos = document.getElementsByClassName("queueContainer")
 
+       Array.from(
+          videos
+        ).forEach(function (element) {
+            element.remove()
+        });
       // remove the queue on popup
 
       // re add the generate queue button
-
+      if(!(document.getElementsByClassName("generateQueueButton")[0])){
+        makeGenerateQueueButton()
+      }
       // re add the generate queue button
 
   });
@@ -482,6 +490,19 @@ function generateQueue() {
 
 }
 
+function makeGenerateQueueButton(){
+
+  var genQueue = document.createElement("button")
+  genQueue.classList.add("generateQueueButton")
+  genQueue.setAttribute('id', 'generate')
+  genQueue.innerText = "Generate"
+
+  document.body.appendChild(genQueue)
+
+  document.getElementById("generate").addEventListener("click", generateQueue);
+
+}
+
 window.onload = async function () {
   const tabs = await chrome.tabs.query({ currentWindow: true, active: true });
   const URL = tabs[0].url
@@ -501,8 +522,6 @@ window.onload = async function () {
 
     if (result.queueInfo != null && result.queueInfo[0]["intialQueue"] === true) {
       
-      
-
       for (const elem of result.queueInfo[0]["videoQueue"]) {
 
         generateVideo(elem)
@@ -511,14 +530,9 @@ window.onload = async function () {
       return
     }
    
-    var genQueue = document.createElement("button")
-    genQueue.classList.add("generateQueueButton")
-    genQueue.setAttribute('id', 'generate')
-    genQueue.innerText = "Generate"
+    makeGenerateQueueButton()
 
-    document.body.appendChild(genQueue)
 
-    document.getElementById("generate").addEventListener("click", generateQueue);
 
   });
 
