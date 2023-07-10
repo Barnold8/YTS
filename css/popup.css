@@ -5,7 +5,6 @@ html
 {
     width: 480px; /* max: 1000px */
     height: 400px; /* max: 750px */
-    margin: 0%;
     background-color: #333333;
     font-family: 'Roboto', sans-serif;
     -webkit-user-select: none; /* Safari */
@@ -13,8 +12,13 @@ html
     user-select: none; /* Standard syntax */
 }
 
+body{
+    margin:0;
+}
+
 li{
   display:flex;
+  margin:1.3%;
 }
 img{
   float:left;
@@ -31,15 +35,100 @@ body{font-family: 'Roboto', sans-serif;}
   background-color: #444444;
 }
 
+/* Menu bar */
 
 .titleBar{
-
+  
+  display: flex;
   width:100%;
-  height: 55%;
-  background-color: #f61c1c;
-  margin:0;
+  height: 10%;
+  background-color: #ff0000;
+  margin:0%;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.24);
 
 }
+
+.titleBarTitle{
+  display: flex;
+  float:left;
+  margin-left: 25%;
+  margin-top: 3%;
+  margin-bottom: 3%;
+  width: 60%;
+  height:auto;
+  font-size: 140%;
+  color:aliceblue;
+  text-shadow: 1px 0 0 #1d1d1d, 0 -1px 0 #1d1d1d, 0 1px 0 #1d1d1d, -1px 0 0 #1d1d1d;
+}
+
+.dropDown{
+
+  width:10%;
+  float:right;
+  height:auto;
+  padding:0%;
+  margin-left:1%;
+  
+
+}
+
+.dropDown-content{
+  display: none;
+  opacity: 0;
+  position: absolute;
+  background-color: #494949;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.4);
+  z-index: 1;
+  right: 2%;
+  top: 11%;
+  width:15%;
+}
+
+.dropDown:hover .dropDown-content {
+  display: block;
+  opacity : 1;
+}
+
+.settings{
+
+  width:75%;
+  height: auto;
+  margin-left:12%;
+  margin-top: 17%;
+  transition: transform 1.2s linear
+
+}
+
+.settings:hover{
+  transform: rotate(360deg);
+}
+
+.dropDownItem{
+  width:50%;
+  height: auto;
+  margin-left: 29%;
+  padding-top: 6%;
+}
+
+
+.dropDownItem:hover{
+    /* Start the shake animation and make the animation last for 0.5 seconds */
+    animation: shake 0.5s;
+
+    /* When the animation is finished, start again */
+    animation-iteration-count: infinite;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0) }
+  25% { transform: translateX(3px) }
+  50% { transform: translateX(-3px) }
+  75% { transform: translateX(3px) }
+  100% { transform: translateX(0) }
+}
+
+/* Menu bar */
+
 
 .title{
   float: left;

@@ -31,11 +31,38 @@ function resolveHost() {
 
 function titleBar(){
 
-  tBar = document.createElement("div")
-  tBar.innerText = "YTS"
-  tBar.classList.add("titleBar");
+  tBar = document.createElement("div") // title bar
+  tBarTitle = document.createElement("div")
+  dropDown =  document.createElement("div")
+  cogIcon =  document.createElement("img")
+  dropDownContent =  document.createElement("div")
+  clearQueue = document.createElement("img")
 
+  tBarTitle.innerText = "YTS - The Youtube Queue Sorter!"
+
+  dropDown.title = "Settings"
+  clearQueue.title = "Clear Queue"
+
+  cogIcon.src = "../images/icons8-cog-100.png"
+  clearQueue.src = "../images/icons8-trash-can-100.png"
+
+  tBar.classList.add("titleBar");
+  tBarTitle.classList.add("titleBarTitle")
+  dropDown.classList.add("dropDown")
+  dropDownContent.classList.add("dropDown-content")
+  cogIcon.classList.add("settings")
+  clearQueue.classList.add("dropDownItem")
+
+  //Items being added to the titlebar (tbar)
+  dropDownContent.appendChild(clearQueue)
+  dropDown.appendChild(dropDownContent)
+  dropDown.appendChild(cogIcon)
+  tBar.appendChild(tBarTitle)
+  tBar.appendChild(dropDown)
+
+  //Items being added to the titlebar (tbar)
   document.getElementById("mainContent").appendChild(tBar)
+
 }
 
 function grabVideoData(elem) {

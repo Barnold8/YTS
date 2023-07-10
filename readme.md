@@ -41,7 +41,6 @@ Right now, all you can do is click "generate queue".
 
     * implement error handling for null queue
     * detect youtube queue update, add to extension queue, resort
-    * button to clear queue
     * add a button to refresh whole site so it can re-add its old queue - try style.display = none, etc
 
 
@@ -51,5 +50,7 @@ Right now, all you can do is click "generate queue".
     * Timer
         * Unchecked runtime.lastError: The message port closed before a response was received. (when trying to change videos)
         * countdown isnt updated when skipping with arrow keys on page (not high priority)
+
     * Queue
         * After last video is done, the next video in the queue on the youtube page is swapped to
+        * If the native queue is not to the right of the video, the generation code refuses to work due to a payload not existing??
