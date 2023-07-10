@@ -154,6 +154,7 @@ function swapVideo(evt) {
   var direction = element.func_param
   var videoID = element.closest('li').getAttribute(idSTR)
 
+
   const HOME = "https://www.youtube.com"
 
   chrome.storage.session.get(["queueInfo"]).then((result) => { // could be good idea to error check here 
@@ -211,6 +212,7 @@ function swapVideo(evt) {
 
                   element.onclick = function (event) {
 
+                    console.log(event.target.tagName)
                     chrome.storage.session.get(["queueInfo"]).then((result) => { // reinit the queue 
                       if (result.queueInfo != null && result.queueInfo[0]["intialQueue"] === true) {
 
@@ -227,11 +229,12 @@ function swapVideo(evt) {
                         chrome.storage.session.set({
                           queueInfo
                         }).then(() => {
-                          if (currentVideo != null) {
-                            chrome.tabs.update({ url: currentVideo.href });
-                          }
-
-
+                          if (
+                            currentVideo != null && event.target.tagName.toLowerCase() != "svg"
+                            && event.target.classList.indexOf('videoFunc') == 0
+                           ) {
+                           chrome.tabs.update({ url: currentVideo.href });
+                         }
                         });
 
 
@@ -306,7 +309,10 @@ function swapVideo(evt) {
                         chrome.storage.session.set({
                           queueInfo
                         }).then(() => {
-                          if (currentVideo != null) {
+                          if (
+                             currentVideo != null && event.target.tagName.toLowerCase() != "svg"
+                             && event.target.classList.indexOf('videoFunc') == 0
+                            ) {
                             chrome.tabs.update({ url: currentVideo.href });
                           }
 

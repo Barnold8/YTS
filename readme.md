@@ -54,6 +54,7 @@ Right now, all you can do is click "generate queue".
     * Queue
         * After last video is done, the next video in the queue on the youtube page is swapped to
         * If the native queue is not to the right of the video, the generation code refuses to work due to a payload not existing??
+        * When clicking the queue changing buttons (up,down), the video could change to the video clicked...
 
     *Other
         * If a video finishes its timer, the current tab the user has open is changed, not the intended original tab
