@@ -501,14 +501,20 @@ function makeGenerateQueueButton(){
 
   buttonContainer = document.createElement("div")
 
+  buttonAlignent = document.createElement("div")
+
   buttonContainer.classList.add("buttonContainer")
+
+  buttonAlignent.classList.add("buttonAlignment")
 
   genQueue = document.createElement("button")
   genQueue.classList.add("generateQueueButton")
   genQueue.setAttribute('id', 'generate')
   genQueue.innerText = "Generate"
 
-  buttonContainer.appendChild(genQueue)
+  buttonAlignent.appendChild(genQueue)
+
+  buttonContainer.appendChild(buttonAlignent)
 
   document.body.appendChild(buttonContainer)
 
