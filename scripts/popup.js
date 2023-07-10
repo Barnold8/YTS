@@ -29,6 +29,15 @@ function resolveHost() {
 
 }
 
+function titleBar(){
+
+  tBar = document.createElement("div")
+  tBar.innerText = "YTS"
+  tBar.classList.add("titleBar");
+
+  document.getElementById("mainContent").appendChild(tBar)
+}
+
 function grabVideoData(elem) {
 
   if (elem.tagName.toLowerCase() != "svg") {
@@ -60,7 +69,6 @@ function exchangeElements(element1, element2) { // with thanks to https://stacko
   return clonedElement1;
 
 }
-
 
 function videoExchange(dir, videoID) {
 
@@ -142,31 +150,31 @@ function swapVideo(evt) {
 
                     chrome.storage.session.get(["queueInfo"]).then((result) => { // reinit the queue 
                       if (result.queueInfo != null && result.queueInfo[0]["intialQueue"] === true) {
-                
+
                         queueInfo = result.queueInfo
                         currentVideo = grabVideoData(event.target)
                         queueInfo[0].currentVideo = currentVideo
-                
+
                         for (i = 0; i < queueInfo[0]["videoQueue"].length; i++) { // O(n) solution. If performance issues, look into some tree data structure for efficiency
                           if (currentVideo.href == queueInfo[0]["videoQueue"][i].href) {
                             queueInfo[0].nextVideo = (queueInfo[0]["videoQueue"][i + 1] ? queueInfo[0]["videoQueue"][i + 1] : HOME)
                           }
                         }
-                
-                          chrome.storage.session.set({
-                            queueInfo
-                          }).then(() => {
-                            if (currentVideo != null) {
-                              chrome.tabs.update({ url: currentVideo.href });
-                            }
-                
-                
-                          });
-                
-                
+
+                        chrome.storage.session.set({
+                          queueInfo
+                        }).then(() => {
+                          if (currentVideo != null) {
+                            chrome.tabs.update({ url: currentVideo.href });
+                          }
+
+
+                        });
+
+
                         return
                       }
-                
+
                     });
                   }
                 })
@@ -221,31 +229,31 @@ function swapVideo(evt) {
 
                     chrome.storage.session.get(["queueInfo"]).then((result) => { // reinit the queue 
                       if (result.queueInfo != null && result.queueInfo[0]["intialQueue"] === true) {
-                
+
                         queueInfo = result.queueInfo
                         currentVideo = grabVideoData(event.target)
                         queueInfo[0].currentVideo = currentVideo
-                
+
                         for (i = 0; i < queueInfo[0]["videoQueue"].length; i++) { // O(n) solution. If performance issues, look into some tree data structure for efficiency
                           if (currentVideo.href == queueInfo[0]["videoQueue"][i].href) {
                             queueInfo[0].nextVideo = (queueInfo[0]["videoQueue"][i + 1] ? queueInfo[0]["videoQueue"][i + 1] : HOME)
                           }
                         }
-                
-                          chrome.storage.session.set({
-                            queueInfo
-                          }).then(() => {
-                            if (currentVideo != null) {
-                              chrome.tabs.update({ url: currentVideo.href });
-                            }
-                
-                
-                          });
-                
-                
+
+                        chrome.storage.session.set({
+                          queueInfo
+                        }).then(() => {
+                          if (currentVideo != null) {
+                            chrome.tabs.update({ url: currentVideo.href });
+                          }
+
+
+                        });
+
+
                         return
                       }
-                
+
                     });
                   }
                 })
@@ -262,7 +270,7 @@ function swapVideo(evt) {
 
 }
 
-function makeVideo(elem){
+function makeVideo(elem) {
 
   const arrowWidth = 15
   const arrowHeight = 15
@@ -321,7 +329,6 @@ function makeVideo(elem){
 
 }
 
-
 function generateVideo(elem) {
 
   const HOME = "https://www.youtube.com"
@@ -352,15 +359,15 @@ function generateVideo(elem) {
           }
         }
 
-          chrome.storage.session.set({
-            queueInfo
-          }).then(() => {
-            if (currentVideo != null) {
-              chrome.tabs.update({ url: currentVideo.href });
-            }
+        chrome.storage.session.set({
+          queueInfo
+        }).then(() => {
+          if (currentVideo != null) {
+            chrome.tabs.update({ url: currentVideo.href });
+          }
 
 
-          });
+        });
 
 
         return
@@ -378,6 +385,10 @@ function redirectToYoutube() {
 
 function generateQueue() {
 
+  // this is called when the generate queue button is called.
+  // Unlike the code in the window.onload which grabs the prexisting data within the
+  // memory and generates the prexisting videos accordingly 
+
   (async () => {
 
     const tabs = await chrome.tabs.query({ currentWindow: true, active: true });
@@ -390,15 +401,12 @@ function generateQueue() {
       return;
     }
 
-    const queueContainer = document.createElement("ul")
-    queueContainer.setAttribute('id', 'queueContainer')
-    document.getElementById("mainContent").appendChild(queueContainer)
+    titleBar()
 
     for (const elem of response.payload) {
 
-      const video = generateVideo(elem)
+      generateVideo(elem)
 
-      queueContainer.appendChild(video)
 
     }
 
@@ -433,18 +441,22 @@ window.onload = async function () {
     document.getElementById("redirect").addEventListener("click", redirectToYoutube);
 
     return // stops function from processing other code
-  }
+  } 
 
   chrome.storage.session.get(["queueInfo"]).then((result) => { // reinit the queue 
+
     if (result.queueInfo != null && result.queueInfo[0]["intialQueue"] === true) {
+      
+      titleBar()
 
       for (const elem of result.queueInfo[0]["videoQueue"]) {
 
-        const video = generateVideo(elem)
+        generateVideo(elem)
+
       }
       return
     }
-
+   
     var genQueue = document.createElement("button")
     genQueue.classList.add("generateQueueButton")
     genQueue.setAttribute('id', 'generate')
@@ -457,4 +469,3 @@ window.onload = async function () {
   });
 
 }
-

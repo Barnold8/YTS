@@ -5,6 +5,7 @@ html
 {
     width: 480px; /* max: 1000px */
     height: 400px; /* max: 750px */
+    margin: 0%;
     background-color: #333333;
     font-family: 'Roboto', sans-serif;
     -webkit-user-select: none; /* Safari */
@@ -30,6 +31,15 @@ body{font-family: 'Roboto', sans-serif;}
   background-color: #444444;
 }
 
+
+.titleBar{
+
+  width:100%;
+  height: 55%;
+  background-color: #f61c1c;
+  margin:0;
+
+}
 
 .title{
   float: left;
