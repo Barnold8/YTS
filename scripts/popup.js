@@ -53,7 +53,8 @@ function clearQueueSession(){
       // remove the queue on popup
 
       // re add the generate queue button
-      if(!(document.getElementsByClassName("generateQueueButton")[0])){
+      if(!(document.getElementsByClassName("buttonContainer")[0])){
+        console.log("fdfffaszfdasf")
         makeGenerateQueueButton()
       }
       // re add the generate queue button
@@ -478,7 +479,7 @@ function generateQueue() {
 
     }
 
-    document.getElementById("generate").remove()
+    document.getElementsByClassName("buttonContainer")[0].remove()
     chrome.storage.session.set({
       queueInfo: [{
         intialQueue: true,
@@ -498,12 +499,18 @@ function generateQueue() {
 
 function makeGenerateQueueButton(){
 
-  var genQueue = document.createElement("button")
+  buttonContainer = document.createElement("div")
+
+  buttonContainer.classList.add("buttonContainer")
+
+  genQueue = document.createElement("button")
   genQueue.classList.add("generateQueueButton")
   genQueue.setAttribute('id', 'generate')
   genQueue.innerText = "Generate"
 
-  document.body.appendChild(genQueue)
+  buttonContainer.appendChild(genQueue)
+
+  document.body.appendChild(buttonContainer)
 
   document.getElementById("generate").addEventListener("click", generateQueue);
 
