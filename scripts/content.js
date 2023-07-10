@@ -1,5 +1,5 @@
 //TODO: 
-// error handling for no video queues available
+    // error handling for no video queues available
 
 
 function grabLink(text) {
@@ -158,9 +158,11 @@ var observer = new MutationObserver(function (mutationsList, observer) {
         }
     }
 
-    // if(document.getElementsByTagName("ytd-playlist-panel-renderer")[1]){
-    //     document.getElementsByTagName("ytd-playlist-panel-renderer")[1].remove()
-    // }
+    // videoQueueHolder = document.getElementsByTagName("ytd-playlist-panel-renderer")[1]
+
+    // // videoQueueHolder.style.display = ( videoQueueHolder.display.holder == "" ? "none" : "" )
+    // videoQueueHolder.style.display = "none"
+
 
 });
 

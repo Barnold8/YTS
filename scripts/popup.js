@@ -262,9 +262,7 @@ function swapVideo(evt) {
 
 }
 
-function generateVideo(elem) {
-
-  const HOME = "https://www.youtube.com"
+function makeVideo(elem){
 
   const arrowWidth = 15
   const arrowHeight = 15
@@ -318,6 +316,17 @@ function generateVideo(elem) {
 
   video.appendChild(imageDiv)
   video.appendChild(titleDiv)
+
+  return video
+
+}
+
+
+function generateVideo(elem) {
+
+  const HOME = "https://www.youtube.com"
+
+  video = makeVideo(elem)
 
   document.getElementById("mainContent").appendChild(video);
 
