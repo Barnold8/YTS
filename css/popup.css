@@ -43,7 +43,7 @@ body{font-family: 'Roboto', sans-serif;}
   display: flex;
   width:100%;
   height: 10%;
-  background-color: #ff0000;
+  background-color: #d61818;
   margin:0%;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.24);
 
@@ -230,23 +230,12 @@ body{font-family: 'Roboto', sans-serif;}
    white-space: nowrap;
    width: 100%;
 
-
-  
-
-  
-  
-  
-
-  
-
-
-
 }
 
 .generateQueueButton:hover {
   
   scale: 1.04;
- 
+  box-shadow: 0px 16px 32px 0px rgba(0,0,0,0.3);
 }
 
 .generateQueueButton:active{
@@ -337,7 +326,7 @@ body{font-family: 'Roboto', sans-serif;}
 
 .youtubeRedirect{
 
-    background-color: #FF0000;
+    background-color: #d61818;
     color: #FFFFFF;
     border-radius: 12px;
     width:142px;
