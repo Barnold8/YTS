@@ -29,6 +29,32 @@ function resolveHost() {
 
 }
 
+function clearQueueSession(){
+
+  // clear session data
+
+  chrome.storage.session.set({
+    queueInfo: [{
+      intialQueue: null,
+      videoQueue:null,
+      currentVideo: null,
+      nextVideo: null
+    }]
+  }).then(() => {
+
+      // remove the queue on popup
+
+      // remove the queue on popup
+
+      // re add the generate queue button
+
+      // re add the generate queue button
+
+  });
+
+  // clear session data
+}
+
 function titleBar(){
 
   tBar = document.createElement("div") // title bar
@@ -52,6 +78,8 @@ function titleBar(){
   dropDownContent.classList.add("dropDown-content")
   cogIcon.classList.add("settings")
   clearQueue.classList.add("dropDownItem")
+
+  clearQueue.onclick = clearQueueSession
 
   //Items being added to the titlebar (tbar)
   dropDownContent.appendChild(clearQueue)
@@ -428,12 +456,11 @@ function generateQueue() {
       return;
     }
 
-    titleBar()
+    // titleBar()
 
     for (const elem of response.payload) {
 
       generateVideo(elem)
-
 
     }
 
@@ -458,7 +485,7 @@ function generateQueue() {
 window.onload = async function () {
   const tabs = await chrome.tabs.query({ currentWindow: true, active: true });
   const URL = tabs[0].url
-
+  titleBar()
   if (!(URL.includes("youtube"))) { // TODO:  Fix the weird CSS for the redirect robot 
 
     document.getElementById("mainContent").remove()
@@ -474,7 +501,7 @@ window.onload = async function () {
 
     if (result.queueInfo != null && result.queueInfo[0]["intialQueue"] === true) {
       
-      titleBar()
+      
 
       for (const elem of result.queueInfo[0]["videoQueue"]) {
 
