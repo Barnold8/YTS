@@ -30,10 +30,15 @@ body{font-family: 'Roboto', sans-serif;}
 
 .queueContainer{
   font-family: 'Roboto', sans-serif;
+  cursor: pointer;
 }
 
 .queueContainer:hover{
   background-color: #444444;
+}
+
+.queueContainer:active{
+  background-color: #555555;
 }
 
 /* Menu bar */
@@ -80,7 +85,7 @@ body{font-family: 'Roboto', sans-serif;}
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.4);
   z-index: 1;
   right: 2%;
-  top: 10%;
+  top: 8%;
   width:15%;
   transition: transform 1.2s linear
 }
@@ -122,6 +127,7 @@ body{font-family: 'Roboto', sans-serif;}
 
     /* When the animation is finished, start again */
     animation-iteration-count: infinite;
+    cursor: pointer;
 }
 
 @keyframes shake {
