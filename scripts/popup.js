@@ -490,7 +490,7 @@ function generateQueue() {
     }).then(() => {
 
       chrome.tabs.update({ url: response.payload[0].href });
-
+      chrome.tabs.sendMessage(tabs[0].id, { type: "setNativeQueue", params: ["hide"] });
     });
 
   })();

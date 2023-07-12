@@ -133,13 +133,7 @@ var observer = new MutationObserver(function (mutationsList, observer) {
                 // obtain current youtube player state. Done by hooking into the play button on the video player
                 video_state = document.getElementsByClassName("ytp-play-button")[0].getAttribute("data-title-no-tooltip") // Pause means video is playing, play means video is paused
 
-
-                if (video_state === "Pause") {
-                    // var distance = time_to_end - now;
-                    var distance = videoEnd.getTime() - now;
-                } else {
-                    var distance = Number.MAX_SAFE_INTEGER
-                }
+                distance = ( video_state === "Pause" ? distance = videoEnd.getTime() - now : Number.MAX_SAFE_INTEGER )
 
                 console.log(distance / 60000)
 
@@ -158,20 +152,26 @@ var observer = new MutationObserver(function (mutationsList, observer) {
         }
     }
 
-    // videoQueueHolder = document.getElementsByTagName("ytd-playlist-panel-renderer")[1]
+    
 
     // // videoQueueHolder.style.display = ( videoQueueHolder.display.holder == "" ? "none" : "" )
     // videoQueueHolder.style.display = "none"
-
-
+    console.log("HEREE")
+    
+    
 });
 
 document.addEventListener('DOMContentLoaded', function () {
 
     video = document.getElementsByClassName("ytp-play-button")
-
-    observer.observe(video[0], { attributes: true });
-
+    try {
+        observer.observe(video[0], { attributes: true });  
+    } catch (error) {
+        // even though the event listener is for when the DOM is loaded, the video is reloaded in when the video changes,
+        // thanks for that youtube. Either way, this code works as intended, the try catch is to stop annoying error
+        // messages
+    }
+    
 });
 
 
